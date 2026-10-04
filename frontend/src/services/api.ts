@@ -8,7 +8,7 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 30000,
+  timeout: 60000,
 });
 
 export const healthApi = {
@@ -19,6 +19,27 @@ export const healthApi = {
 };
 
 export const documentApi = {
+  uploadDocument: async (
+    file: File,
+    onProgress?: (percent: number) => void
+  ): Promise<DocumentDetailResponse> => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await apiClient.post<DocumentDetailResponse>('/documents/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progressEvent) => {
+        if (progressEvent.total && onProgress) {
+          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          onProgress(percent);
+        }
+      },
+    });
+    return response.data;
+  },
+
   getDocuments: async (): Promise<DocumentListResponse> => {
     const response = await apiClient.get<DocumentListResponse>('/documents');
     return response.data;

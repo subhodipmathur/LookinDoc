@@ -38,9 +38,9 @@
           │           ├── TF-IDF
           │           └── Cosine Similarity
           │
-          ├── PDF
-          ├── DOCX
-          └── TXT
+          ├── PDF (PyMuPDF)
+          ├── DOCX (python-docx)
+          └── TXT (UTF-8 / Latin)
 ```
 
 ---
@@ -49,7 +49,8 @@
 
 - **Frontend**: React 18, Vite, TypeScript, Tailwind CSS, Lucide React, Axios, React Router.
 - **Backend**: Python 3.13+, FastAPI, Pydantic v2, Uvicorn, Supabase-py.
-- **NLP & Processing**: spaCy, NLTK, scikit-learn, PyMuPDF (fitz), python-docx.
+- **Document Processing**: PyMuPDF (fitz), python-docx.
+- **NLP & Intelligence**: spaCy, NLTK, scikit-learn (TF-IDF + Cosine Similarity).
 - **Database & Storage**: Supabase PostgreSQL & Supabase Storage.
 
 ---
@@ -81,69 +82,15 @@
 
 ---
 
-## Project Structure
+## API Endpoints
 
-```text
-lookindoc/
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── endpoints/
-│   │   │   │   ├── health.py
-│   │   │   │   └── documents.py
-│   │   │   └── router.py
-│   │   ├── core/
-│   │   │   └── config.py
-│   │   ├── repositories/
-│   │   │   └── document_repository.py
-│   │   ├── schemas/
-│   │   │   └── document.py
-│   │   ├── services/
-│   │   │   └── supabase_service.py
-│   │   └── main.py
-│   ├── tests/
-│   │   ├── unit/
-│   │   │   ├── test_documents.py
-│   │   │   └── test_supabase_service.py
-│   │   ├── integration/
-│   │   │   └── test_supabase_integration.py
-│   │   └── test_health.py
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── layout/
-│   │   │   │   ├── Navbar.tsx
-│   │   │   │   └── Footer.tsx
-│   │   │   └── ui/
-│   │   │       ├── Button.tsx
-│   │   │       ├── Badge.tsx
-│   │   │       ├── Card.tsx
-│   │   │       ├── EmptyState.tsx
-│   │   │       ├── ErrorAlert.tsx
-│   │   │       └── LoadingSpinner.tsx
-│   │   ├── pages/
-│   │   │   ├── Home.tsx
-│   │   │   ├── Upload.tsx
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── DocumentWorkspace.tsx
-│   │   │   └── NotFound.tsx
-│   │   ├── services/
-│   │   │   └── api.ts
-│   │   ├── types/
-│   │   │   └── index.ts
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   ├── package.json
-│   ├── vite.config.ts
-│   └── tailwind.config.js
-├── supabase/
-│   └── migrations/
-│       └── 20261004000000_initial_schema.sql
-├── README.md
-└── AGENT_PROGRESS.md
-```
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Service health check |
+| `POST` | `/api/documents/upload` | Upload & extract PDF, DOCX, or TXT file |
+| `GET` | `/api/documents` | List documents (lightweight metadata) |
+| `GET` | `/api/documents/{id}` | Get full document metadata |
+| `DELETE` | `/api/documents/{id}` | Delete document, storage file & analysis |
 
 ---
 
@@ -175,16 +122,6 @@ npm run dev
 ```
 
 - Frontend App: `http://localhost:5173`
+- Upload Page: `http://localhost:5173/upload`
 - Dashboard: `http://localhost:5173/dashboard`
 - Workspace: `http://localhost:5173/documents/:id`
-
----
-
-## API Endpoints (Phase 3)
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/health` | Service health check |
-| `GET` | `/api/documents` | List documents (lightweight metadata) |
-| `GET` | `/api/documents/{id}` | Get full document metadata |
-| `DELETE` | `/api/documents/{id}` | Delete document, storage file & analysis |

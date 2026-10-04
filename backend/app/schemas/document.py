@@ -1,8 +1,5 @@
 """
 Pydantic schemas for document request/response contracts.
-
-Separating schema models from database operations keeps route handlers thin
-and makes it easy to evolve the API without touching the DB layer.
 """
 from __future__ import annotations
 
@@ -33,7 +30,12 @@ class DocumentDetail(DocumentListItem):
     storage_path: Optional[str] = None
     sentence_count: Optional[int] = None
     character_count: Optional[int] = None
-    # extracted_text intentionally omitted — too large for API responses
+    # extracted_text intentionally omitted from default JSON response for size efficiency
+
+
+class DocumentDetailWithText(DocumentDetail):
+    """Document representation including raw extracted text when explicitly requested."""
+    extracted_text: Optional[str] = None
 
 
 class DocumentListResponse(BaseModel):
@@ -51,15 +53,21 @@ class DeleteResponse(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Internal create/update models (used by repositories, not exposed directly)
+# Internal create/update models
 # ---------------------------------------------------------------------------
 
 class DocumentCreate(BaseModel):
+    id: Optional[str] = None
     filename: str
     original_filename: str
     file_type: str
     file_size: int
     storage_path: Optional[str] = None
+    extracted_text: Optional[str] = None
+    page_count: Optional[int] = None
+    word_count: Optional[int] = None
+    sentence_count: Optional[int] = None
+    character_count: Optional[int] = None
     processing_status: str = "pending"
 
 
