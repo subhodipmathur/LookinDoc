@@ -4,8 +4,30 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans selection:bg-brand-500 selection:text-white;
+    @apply bg-slate-950 text-slate-100 font-sans selection:bg-brand-500 selection:text-white antialiased min-h-screen flex flex-col;
+    background-image: 
+      radial-gradient(at 50% 0%, rgba(14, 142, 233, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 40%),
+      radial-gradient(at 0% 100%, rgba(14, 142, 233, 0.04) 0px, transparent 40%);
+    background-attachment: fixed;
   }
+}
+
+/* Glassmorphism & SaaS Card Utilities */
+.glass-panel {
+  @apply bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 shadow-xl shadow-black/20;
+}
+
+.glass-panel-interactive {
+  @apply bg-slate-900/70 hover:bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-slate-700/90 transition-all duration-200 shadow-lg shadow-black/20 hover:shadow-brand-500/5 hover:-translate-y-0.5;
+}
+
+.glow-brand {
+  box-shadow: 0 0 30px -5px rgba(14, 142, 233, 0.25);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.2);
 }
 
 /* Custom scrollbar */
@@ -19,9 +41,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-400;
+  @apply bg-slate-800 rounded-full hover:bg-slate-700 transition-colors;
 }

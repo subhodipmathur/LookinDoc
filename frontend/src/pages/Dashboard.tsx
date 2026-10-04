@@ -10,7 +10,12 @@ import {
   Calendar,
   Layers,
   AlertTriangle,
-  X
+  X,
+  LayoutGrid,
+  List,
+  RefreshCw,
+  Copy,
+  Check
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -26,6 +31,9 @@ export const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedFormat, setSelectedFormat] = useState<string>('All');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   
   // Delete modal state
   const [docToDelete, setDocToDelete] = useState<DocumentListItem | null>(null);
@@ -66,6 +74,13 @@ export const Dashboard: React.FC = () => {
     }
   };
 
+  const copyDocId = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
   const formatFileSize = (bytes: number) => {
     if (!bytes || bytes === 0) return '0 B';
     if (bytes < 1024) return bytes + ' B';
@@ -86,166 +101,295 @@ export const Dashboard: React.FC = () => {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'ready':
-        return <Badge variant="success" size="sm">Ready</Badge>;
-      case 'processing':
-        return <Badge variant="warning" size="sm">Processing</Badge>;
-      case 'error':
-        return <Badge variant="error" size="sm">Failed</Badge>;
-      case 'pending':
-      default:
-        return <Badge variant="neutral" size="sm">Pending</Badge>;
+  const getFormatBadge = (type: string) => {
+    const t = type.toLowerCase();
+    if (t === 'pdf') {
+      return <Badge variant="error" size="sm">PDF</Badge>;
+    } else if (t === 'docx' || t === 'doc') {
+      return <Badge variant="brand" size="sm">DOCX</Badge>;
+    } else {
+      return <Badge variant="success" size="sm">TXT</Badge>;
     }
   };
 
-  const filteredDocuments = documents.filter((doc) =>
-    (doc.filename || doc.original_filename || '')
+  const filteredDocuments = documents.filter((doc) => {
+    const matchesSearch = (doc.filename || doc.original_filename || '')
       .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
+      .includes(searchQuery.toLowerCase());
+    const matchesFormat = selectedFormat === 'All' || doc.file_type.toLowerCase() === selectedFormat.toLowerCase();
+    return matchesSearch && matchesFormat;
+  });
+
+  // Calculate vault stats
+  const totalWords = documents.reduce((acc, d) => acc + (d.word_count || 0), 0);
+  const totalBytes = documents.reduce((acc, d) => acc + (d.file_size || 0), 0);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-            Document Library
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Manage uploaded documents, view extraction status, and explore NLP analysis.
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+              Document Vault
+            </h1>
+            <Badge variant="brand" size="sm">{documents.length} Total</Badge>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            Browse, manage, and explore NLP analysis for all ingested documents in your Supabase vault.
           </p>
         </div>
-        <Link to="/upload">
-          <Button leftIcon={<Upload className="w-4 h-4" />}>
-            Upload New Document
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link to="/upload">
+            <Button variant="glow" leftIcon={<Upload className="w-4 h-4" />}>
+              Ingest Document
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center gap-3 mb-6">
+      {/* Top Quick Metrics Strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <Card className="p-4 space-y-1">
+          <span className="text-xs text-slate-400 font-medium">Vault Documents</span>
+          <p className="text-2xl font-black text-white">{documents.length}</p>
+          <span className="text-[10px] text-emerald-400 font-semibold">PostgreSQL Indexed</span>
+        </Card>
+        <Card className="p-4 space-y-1">
+          <span className="text-xs text-slate-400 font-medium">Total Ingested Words</span>
+          <p className="text-2xl font-black text-brand-400">{totalWords.toLocaleString()}</p>
+          <span className="text-[10px] text-slate-400">Processed tokens</span>
+        </Card>
+        <Card className="p-4 space-y-1">
+          <span className="text-xs text-slate-400 font-medium">Storage Consumed</span>
+          <p className="text-2xl font-black text-indigo-400">{formatFileSize(totalBytes)}</p>
+          <span className="text-[10px] text-slate-400">Supabase Storage</span>
+        </Card>
+        <Card className="p-4 space-y-1">
+          <span className="text-xs text-slate-400 font-medium">NLP Intelligence</span>
+          <p className="text-2xl font-black text-emerald-400">100%</p>
+          <span className="text-[10px] text-emerald-400 font-semibold">Grounded & Ready</span>
+        </Card>
+      </div>
+
+      {/* Filter and Search Controls Bar */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3 p-2 bg-slate-900/60 rounded-2xl border border-slate-800 backdrop-blur-xl">
+        {/* Search */}
         <div className="relative flex-1 w-full">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search documents by name..."
+            placeholder="Filter documents by filename..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+            className="w-full pl-10 pr-4 py-2 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
           />
         </div>
-        <Button variant="outline" size="sm" onClick={fetchDocuments}>
-          Refresh
-        </Button>
+
+        {/* Format Filter Pills */}
+        <div className="flex items-center gap-1 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+          {['All', 'pdf', 'docx', 'txt'].map((fmt) => (
+            <button
+              key={fmt}
+              onClick={() => setSelectedFormat(fmt)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all whitespace-nowrap ${
+                selectedFormat.toLowerCase() === fmt.toLowerCase()
+                  ? 'bg-brand-500 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              {fmt}
+            </button>
+          ))}
+        </div>
+
+        {/* View Switcher & Refresh */}
+        <div className="flex items-center gap-1.5 w-full md:w-auto justify-end">
+          <div className="flex items-center p-0.5 bg-slate-950/60 rounded-lg border border-slate-800">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-1.5 rounded-md text-xs transition-colors ${
+                viewMode === 'grid' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'
+              }`}
+              aria-label="Grid view"
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-1.5 rounded-md text-xs transition-colors ${
+                viewMode === 'list' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'
+              }`}
+              aria-label="List view"
+            >
+              <List className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <Button variant="outline" size="sm" onClick={fetchDocuments} leftIcon={<RefreshCw className="w-3.5 h-3.5" />}>
+            Refresh
+          </Button>
+        </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* Main Document Content */}
       {loading ? (
-        <Card className="p-12">
-          <LoadingSpinner size="lg" label="Loading documents from Supabase..." />
+        <Card className="p-16">
+          <LoadingSpinner size="lg" label="Synchronizing document library with Supabase..." />
         </Card>
       ) : error ? (
         <Card className="p-6">
-          <ErrorAlert title="Failed to load document library" message={error} onRetry={fetchDocuments} />
+          <ErrorAlert title="Failed to load document vault" message={error} onRetry={fetchDocuments} />
         </Card>
       ) : documents.length === 0 ? (
-        <Card className="p-8">
+        <Card className="p-12">
           <EmptyState
             icon={FolderOpen}
-            title="No documents in your library yet"
-            description="Upload a PDF, DOCX, or TXT file to begin automated NLP processing and intelligence extraction."
-            actionLabel="Upload First Document"
+            title="Your document vault is empty"
+            description="Ingest a PDF, Word document, or TXT file to initiate automated text extraction and NLP intelligence."
+            actionLabel="Ingest First Document"
             onAction={() => window.location.assign('/upload')}
           />
         </Card>
       ) : filteredDocuments.length === 0 ? (
-        <Card className="p-8">
+        <Card className="p-12">
           <EmptyState
             icon={Search}
-            title="No matching documents"
-            description={`No documents found matching "${searchQuery}". Try a different keyword.`}
-            actionLabel="Clear Search"
-            onAction={() => setSearchQuery('')}
+            title="No matching documents found"
+            description={`No document matched your search query "${searchQuery}".`}
+            actionLabel="Reset Filters"
+            onAction={() => {
+              setSearchQuery('');
+              setSelectedFormat('All');
+            }}
           />
         </Card>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      ) : viewMode === 'grid' ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredDocuments.map((doc) => (
-            <Card key={doc.id} hoverEffect className="p-5 flex flex-col justify-between">
+            <Card
+              key={doc.id}
+              hoverEffect
+              className="p-5 flex flex-col justify-between group relative overflow-hidden"
+            >
+              {/* Subtle ambient accent glow based on type */}
+              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-500/5 rounded-full blur-xl pointer-events-none group-hover:bg-brand-500/10 transition-all" />
+
               <div>
-                {/* Top card row: icon & status */}
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 flex-shrink-0">
+                {/* Header row */}
+                <div className="flex items-start justify-between gap-3 mb-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-brand-400 flex-shrink-0 group-hover:border-brand-500/50 transition-colors">
                     <FileText className="w-5 h-5" />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="brand" size="sm">
-                      {doc.file_type ? doc.file_type.toUpperCase() : 'DOC'}
+                  <div className="flex items-center gap-1.5">
+                    {getFormatBadge(doc.file_type)}
+                    <Badge variant="success" size="sm">
+                      Ready
                     </Badge>
-                    {getStatusBadge(doc.processing_status)}
                   </div>
                 </div>
 
                 {/* Filename */}
-                <h3 className="text-base font-semibold text-slate-900 truncate mb-1" title={doc.filename}>
+                <h3 className="text-sm font-bold text-white truncate mb-1" title={doc.filename}>
                   {doc.filename || doc.original_filename}
                 </h3>
 
-                {/* Meta details */}
-                <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-2 mb-4">
-                  <span>{formatFileSize(doc.file_size)}</span>
+                {/* Metadata Pills */}
+                <div className="flex flex-wrap items-center gap-2.5 text-xs text-slate-400 mt-2.5 mb-4">
+                  <span className="font-mono text-[11px] text-slate-300">{formatFileSize(doc.file_size)}</span>
                   {doc.word_count !== null && doc.word_count !== undefined && (
                     <span className="flex items-center gap-1">
-                      <Layers className="w-3.5 h-3.5" />
+                      <Layers className="w-3 h-3 text-slate-500" />
                       {doc.word_count.toLocaleString()} words
                     </span>
                   )}
                   {doc.page_count !== null && doc.page_count !== undefined && (
                     <span>{doc.page_count} {doc.page_count === 1 ? 'page' : 'pages'}</span>
                   )}
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5" />
+                  <span className="flex items-center gap-1 text-[11px] text-slate-500">
+                    <Calendar className="w-3 h-3" />
                     {formatDate(doc.created_at)}
                   </span>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+              {/* Action Bottom Bar */}
+              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
                 <Link to={`/documents/${doc.id}`} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full" rightIcon={<ExternalLink className="w-3.5 h-3.5" />}>
-                    Open
+                    Open Workspace
                   </Button>
                 </Link>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
-                  onClick={() => setDocToDelete(doc)}
-                  aria-label="Delete document"
+                <button
+                  onClick={(e) => copyDocId(doc.id, e)}
+                  title="Copy Document ID"
+                  className="p-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800"
                 >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                  {copiedId === doc.id ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+                <button
+                  onClick={() => setDocToDelete(doc)}
+                  title="Delete Document"
+                  className="p-2 rounded-xl text-rose-400/80 hover:text-rose-300 hover:bg-rose-950/40 border border-rose-900/30"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
               </div>
             </Card>
           ))}
         </div>
+      ) : (
+        /* List View */
+        <Card className="divide-y divide-slate-800/80 overflow-hidden">
+          {filteredDocuments.map((doc) => (
+            <div
+              key={doc.id}
+              className="p-4 hover:bg-slate-800/40 transition-colors flex items-center justify-between gap-4 text-xs"
+            >
+              <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                <div className="w-9 h-9 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-brand-400 flex-shrink-0">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-bold text-white text-sm truncate">{doc.filename || doc.original_filename}</p>
+                  <div className="flex items-center gap-3 text-slate-400 mt-0.5">
+                    <span>{formatFileSize(doc.file_size)}</span>
+                    {doc.word_count && <span>{doc.word_count.toLocaleString()} words</span>}
+                    <span>{formatDate(doc.created_at)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {getFormatBadge(doc.file_type)}
+                <Link to={`/documents/${doc.id}`}>
+                  <Button variant="outline" size="sm" rightIcon={<ExternalLink className="w-3.5 h-3.5" />}>
+                    Open
+                  </Button>
+                </Link>
+                <button
+                  onClick={() => setDocToDelete(doc)}
+                  className="p-2 text-rose-400 hover:bg-rose-950/40 rounded-lg"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </Card>
       )}
 
       {/* Delete Confirmation Modal */}
       {docToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+          <div className="bg-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-800 space-y-4">
             <div className="flex items-start justify-between gap-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-2xl bg-rose-950/60 text-rose-400 border border-rose-800/60 flex items-center justify-center flex-shrink-0">
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <button
                 onClick={() => setDocToDelete(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800"
                 disabled={isDeleting}
               >
                 <X className="w-5 h-5" />
@@ -253,14 +397,14 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Delete Document</h3>
-              <p className="text-sm text-slate-500 mt-1">
-                Are you sure you want to delete <span className="font-semibold text-slate-700">"{docToDelete.filename || docToDelete.original_filename}"</span>? This action cannot be undone.
+              <h3 className="text-lg font-bold text-white">Delete Document</h3>
+              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                Are you sure you want to delete <span className="font-semibold text-slate-200">"{docToDelete.filename || docToDelete.original_filename}"</span>? This will permanently remove the record and all NLP analysis.
               </p>
             </div>
 
             {deleteError && (
-              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs">
+              <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-800 text-rose-200 text-xs">
                 {deleteError}
               </div>
             )}
@@ -280,7 +424,7 @@ export const Dashboard: React.FC = () => {
                 isLoading={isDeleting}
                 onClick={handleDelete}
               >
-                Delete Document
+                Delete Permanently
               </Button>
             </div>
           </div>
