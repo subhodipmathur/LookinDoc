@@ -41,32 +41,39 @@ export interface DocumentStatistics {
   page_count: number;
   avg_sentence_length: number;
   avg_word_length: number;
+  vocabulary_richness: number;
   estimated_reading_time_mins: number;
 }
 
 export interface KeywordItem {
-  id: string;
   keyword: string;
   score: number;
   rank: number;
 }
 
 export interface EntityItem {
-  id: string;
   entity_text: string;
   entity_label: string;
-  start_position: number;
-  end_position: number;
+  category?: string;
   frequency?: number;
+  start_position?: number;
+  end_position?: number;
 }
 
 export interface ExtractiveSummary {
-  id: string;
-  document_id: string;
   summary_text: string;
   sentence_count: number;
-  compression_ratio?: number;
-  created_at: string;
+  original_sentence_count: number;
+  compression_ratio: number;
+  selected_sentences?: string[];
+}
+
+export interface DocumentAnalysisResponse {
+  document_id: string;
+  statistics: DocumentStatistics;
+  keywords: KeywordItem[];
+  entities: Record<string, EntityItem[]>;
+  summary: ExtractiveSummary;
 }
 
 export interface SearchResult {
@@ -75,6 +82,12 @@ export interface SearchResult {
   relevance_score: number;
   start_position?: number;
   end_position?: number;
+}
+
+export interface SearchResponse {
+  query: string;
+  results: SearchResult[];
+  total_results: number;
 }
 
 export interface QAResult {

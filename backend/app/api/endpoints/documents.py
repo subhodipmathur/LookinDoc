@@ -1,8 +1,8 @@
 """
 Document API endpoints.
 
-Phase 4 surface:
-  POST /api/documents/upload       → upload file, extract text, upload to Supabase storage, save to DB
+Phase 4 & NLP pipeline surface:
+  POST /api/documents/upload       → upload file, extract text, upload to Supabase storage, save to DB, run NLP pipeline
   GET  /api/documents              → list all documents
   GET  /api/documents/{id}         → single document detail
   DELETE /api/documents/{id}       → delete document + storage + children
@@ -27,6 +27,7 @@ from app.schemas.document import (
     DeleteResponse,
 )
 from app.services.extractor import extract_document, DocumentExtractionError
+from app.services.nlp.pipeline import process_document_nlp_pipeline
 from app.services.storage_service import upload_document_file
 from app.services.supabase_service import get_supabase_client
 
@@ -60,7 +61,8 @@ async def upload_document(
     2. Extracts clean text and metadata (page count, words, sentences, characters).
     3. Uploads original file to Supabase Storage.
     4. Saves document record into Supabase PostgreSQL.
-    5. Returns created document details.
+    5. Runs end-to-end NLP pipeline (chunks, TF-IDF keywords, spaCy NER, extractive summary).
+    6. Returns created document details.
     """
     if not file.filename:
         raise HTTPException(
@@ -126,7 +128,6 @@ async def upload_document(
         upload_document_file(client, storage_path, file_bytes, content_type)
     except Exception as exc:
         logger.warning("Storage upload warning for %s: %s", storage_path, exc)
-        # We record storage_path even if direct storage had a transient warning
 
     # Create document record in database
     create_payload = DocumentCreate(
@@ -141,7 +142,7 @@ async def upload_document(
         word_count=extracted.word_count,
         sentence_count=extracted.sentence_count,
         character_count=extracted.character_count,
-        processing_status="ready",
+        processing_status="processing",
     )
 
     try:
@@ -153,7 +154,20 @@ async def upload_document(
             detail="Failed to save document metadata in database.",
         ) from exc
 
-    return DocumentDetailResponse(document=DocumentDetail(**created_row))
+    # Execute NLP Intelligence Pipeline (chunks, keywords, entities, summarization)
+    try:
+        process_document_nlp_pipeline(
+            client=client,
+            document_id=doc_id,
+            raw_text=extracted.extracted_text,
+            page_count=extracted.page_count
+        )
+    except Exception as exc:
+        logger.error("Error executing NLP pipeline for %s: %s", doc_id, exc)
+
+    # Fetch updated document row
+    final_doc = repo.get_document(client, doc_id) or created_row
+    return DocumentDetailResponse(document=DocumentDetail(**final_doc))
 
 
 # ---------------------------------------------------------------------------

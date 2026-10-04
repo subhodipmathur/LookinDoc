@@ -1,5 +1,15 @@
 import axios from 'axios';
-import { DocumentListResponse, DocumentDetailResponse, DeleteResponse } from '../types';
+import { 
+  DocumentListResponse, 
+  DocumentDetailResponse, 
+  DeleteResponse,
+  DocumentAnalysisResponse,
+  KeywordItem,
+  EntityItem,
+  ExtractiveSummary,
+  SearchResponse,
+  QAResult
+} from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
@@ -52,6 +62,44 @@ export const documentApi = {
 
   deleteDocument: async (documentId: string): Promise<DeleteResponse> => {
     const response = await apiClient.delete<DeleteResponse>(`/documents/${documentId}`);
+    return response.data;
+  },
+
+  // NLP Intelligence Endpoints
+  getAnalysis: async (documentId: string): Promise<DocumentAnalysisResponse> => {
+    const response = await apiClient.get<DocumentAnalysisResponse>(`/documents/${documentId}/analysis`);
+    return response.data;
+  },
+
+  getKeywords: async (documentId: string): Promise<KeywordItem[]> => {
+    const response = await apiClient.get<KeywordItem[]>(`/documents/${documentId}/keywords`);
+    return response.data;
+  },
+
+  getEntities: async (documentId: string): Promise<Record<string, EntityItem[]>> => {
+    const response = await apiClient.get<Record<string, EntityItem[]>>(`/documents/${documentId}/entities`);
+    return response.data;
+  },
+
+  getSummary: async (documentId: string, lengthMode: 'short' | 'medium' | 'detailed' = 'medium'): Promise<ExtractiveSummary> => {
+    const response = await apiClient.get<ExtractiveSummary>(`/documents/${documentId}/summary`, {
+      params: { length_mode: lengthMode },
+    });
+    return response.data;
+  },
+
+  search: async (documentId: string, query: string, topK: number = 5): Promise<SearchResponse> => {
+    const response = await apiClient.post<SearchResponse>(`/documents/${documentId}/search`, {
+      query,
+      top_k: topK,
+    });
+    return response.data;
+  },
+
+  askQuestion: async (documentId: string, question: string): Promise<QAResult> => {
+    const response = await apiClient.post<QAResult>(`/documents/${documentId}/question`, {
+      question,
+    });
     return response.data;
   },
 };

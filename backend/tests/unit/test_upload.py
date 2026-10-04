@@ -10,8 +10,7 @@ def test_upload_txt_success():
     mock_supabase = MagicMock()
     doc_id = "22222222-2222-2222-2222-222222222222"
     
-    mock_supabase.storage.from_.return_value.upload.return_value = None
-    mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [{
+    mock_doc = {
         "id": doc_id,
         "filename": "sample.txt",
         "original_filename": "sample.txt",
@@ -25,7 +24,13 @@ def test_upload_txt_success():
         "character_count": 120,
         "created_at": "2026-10-04T00:00:00Z",
         "updated_at": "2026-10-04T00:00:00Z"
-    }]
+    }
+
+    mock_supabase.storage.from_.return_value.upload.return_value = None
+    mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [mock_doc]
+    mock_supabase.table.return_value.select.return_value.eq.return_value.limit.return_value.execute.return_value.data = [mock_doc]
+    mock_supabase.table.return_value.update.return_value.eq.return_value.execute.return_value.data = [mock_doc]
+    mock_supabase.table.return_value.delete.return_value.eq.return_value.execute.return_value.data = []
 
     app.dependency_overrides[get_supabase_client] = lambda: mock_supabase
     try:

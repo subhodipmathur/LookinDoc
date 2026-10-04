@@ -1,18 +1,17 @@
 """
-Pydantic schemas for document request/response contracts.
+Pydantic schemas for document request/response contracts and NLP endpoints.
 """
 from __future__ import annotations
 
-from typing import Optional
-from pydantic import BaseModel
+from typing import Optional, List, Dict, Any
+from pydantic import BaseModel, Field
 
 
 # ---------------------------------------------------------------------------
-# Response models
+# Core Document Models
 # ---------------------------------------------------------------------------
 
 class DocumentListItem(BaseModel):
-    """Lightweight document representation for the library view."""
     id: str
     filename: str
     original_filename: str
@@ -26,20 +25,13 @@ class DocumentListItem(BaseModel):
 
 
 class DocumentDetail(DocumentListItem):
-    """Full document representation for the workspace view."""
     storage_path: Optional[str] = None
     sentence_count: Optional[int] = None
     character_count: Optional[int] = None
-    # extracted_text intentionally omitted from default JSON response for size efficiency
-
-
-class DocumentDetailWithText(DocumentDetail):
-    """Document representation including raw extracted text when explicitly requested."""
-    extracted_text: Optional[str] = None
 
 
 class DocumentListResponse(BaseModel):
-    documents: list[DocumentListItem]
+    documents: List[DocumentListItem]
     total: int
 
 
@@ -50,6 +42,83 @@ class DocumentDetailResponse(BaseModel):
 class DeleteResponse(BaseModel):
     success: bool
     message: str
+
+
+# ---------------------------------------------------------------------------
+# NLP Intelligence & Analysis Schemas
+# ---------------------------------------------------------------------------
+
+class KeywordItem(BaseModel):
+    keyword: str
+    score: float
+    rank: int
+
+
+class EntityItem(BaseModel):
+    entity_text: str
+    entity_label: str
+    category: Optional[str] = None
+    frequency: Optional[int] = 1
+    start_position: Optional[int] = None
+    end_position: Optional[int] = None
+
+
+class ExtractiveSummaryResponse(BaseModel):
+    summary_text: str
+    sentence_count: int
+    original_sentence_count: int
+    compression_ratio: float
+    selected_sentences: List[str] = []
+
+
+class DocumentStatisticsResponse(BaseModel):
+    character_count: int
+    word_count: int
+    sentence_count: int
+    paragraph_count: int
+    page_count: int
+    avg_sentence_length: float
+    avg_word_length: float
+    vocabulary_richness: float
+    estimated_reading_time_mins: float
+
+
+class DocumentAnalysisResponse(BaseModel):
+    document_id: str
+    statistics: DocumentStatisticsResponse
+    keywords: List[KeywordItem]
+    entities: Dict[str, List[EntityItem]]
+    summary: ExtractiveSummaryResponse
+
+
+class SearchRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=500, description="Natural language search query")
+    top_k: Optional[int] = Field(default=5, ge=1, le=20)
+
+
+class SearchResultItem(BaseModel):
+    chunk_index: int
+    text: str
+    relevance_score: float
+    start_position: Optional[int] = None
+    end_position: Optional[int] = None
+
+
+class SearchResponse(BaseModel):
+    query: str
+    results: List[SearchResultItem]
+    total_results: int
+
+
+class QuestionRequest(BaseModel):
+    question: str = Field(..., min_length=2, max_length=500, description="Question to answer from document text")
+
+
+class QuestionResponse(BaseModel):
+    question: str
+    answer: str
+    supporting_passage: str
+    relevance_score: float
 
 
 # ---------------------------------------------------------------------------
