@@ -130,12 +130,12 @@ export const Dashboard: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               Document Vault
             </h1>
             <Badge variant="brand" size="sm">{documents.length} Total</Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+          <p className="text-xs sm:text-sm text-zinc-400 mt-1">
             Browse, manage, and explore NLP intelligence for all ingested documents in your encrypted vault.
           </p>
         </div>
@@ -151,38 +151,38 @@ export const Dashboard: React.FC = () => {
       {/* Top Quick Metrics Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Card className="p-4 space-y-1">
-          <span className="text-xs text-slate-400 font-medium">Vault Documents</span>
-          <p className="text-2xl font-black text-white">{documents.length}</p>
-          <span className="text-[10px] text-emerald-400 font-semibold">PostgreSQL Indexed</span>
+          <span className="text-xs text-zinc-400 font-medium">Vault Documents</span>
+          <p className="text-2xl font-bold text-white">{documents.length}</p>
+          <span className="text-[10px] text-emerald-400 font-medium">PostgreSQL Indexed</span>
         </Card>
         <Card className="p-4 space-y-1">
-          <span className="text-xs text-slate-400 font-medium">Total Ingested Words</span>
-          <p className="text-2xl font-black text-sky-400">{totalWords.toLocaleString()}</p>
-          <span className="text-[10px] text-slate-300">Processed tokens</span>
+          <span className="text-xs text-zinc-400 font-medium">Total Ingested Words</span>
+          <p className="text-2xl font-bold text-indigo-400">{totalWords.toLocaleString()}</p>
+          <span className="text-[10px] text-zinc-400">Processed tokens</span>
         </Card>
         <Card className="p-4 space-y-1">
-          <span className="text-xs text-slate-400 font-medium">Storage Consumed</span>
-          <p className="text-2xl font-black text-indigo-400">{formatFileSize(totalBytes)}</p>
-          <span className="text-[10px] text-slate-300">Encrypted Cloud Storage</span>
+          <span className="text-xs text-zinc-400 font-medium">Storage Consumed</span>
+          <p className="text-2xl font-bold text-blue-400">{formatFileSize(totalBytes)}</p>
+          <span className="text-[10px] text-zinc-400">Encrypted Cloud Storage</span>
         </Card>
         <Card className="p-4 space-y-1">
-          <span className="text-xs text-slate-400 font-medium">NLP Reliability</span>
-          <p className="text-2xl font-black text-emerald-400">100%</p>
-          <span className="text-[10px] text-emerald-400 font-semibold">Grounded & Verifiable</span>
+          <span className="text-xs text-zinc-400 font-medium">NLP Reliability</span>
+          <p className="text-2xl font-bold text-emerald-400">100%</p>
+          <span className="text-[10px] text-emerald-400 font-medium">Grounded & Verifiable</span>
         </Card>
       </div>
 
       {/* Filter and Search Controls Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-3 p-2.5 bg-[#111827] rounded-2xl border border-slate-800 backdrop-blur-xl">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3 p-2.5 bg-[#12131a] rounded-2xl border border-zinc-800">
         {/* Search */}
         <div className="relative flex-1 w-full">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Filter documents by filename..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-[#0b0f19] border border-slate-700/80 rounded-xl text-xs text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            className="w-full pl-10 pr-4 py-2 bg-[#0e0f15] border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
 
@@ -194,8 +194,8 @@ export const Dashboard: React.FC = () => {
               onClick={() => setSelectedFormat(fmt)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all whitespace-nowrap ${
                 selectedFormat.toLowerCase() === fmt.toLowerCase()
-                  ? 'bg-sky-500 text-white shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
               }`}
             >
               {fmt}
@@ -205,11 +205,11 @@ export const Dashboard: React.FC = () => {
 
         {/* View Switcher & Refresh */}
         <div className="flex items-center gap-1.5 w-full md:w-auto justify-end">
-          <div className="flex items-center p-0.5 bg-[#0b0f19] rounded-lg border border-slate-800">
+          <div className="flex items-center p-0.5 bg-[#0e0f15] rounded-lg border border-zinc-800">
             <button
               onClick={() => setViewMode('grid')}
               className={`p-1.5 rounded-md text-xs transition-colors ${
-                viewMode === 'grid' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'
+                viewMode === 'grid' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-zinc-200'
               }`}
               aria-label="Grid view"
             >
@@ -218,7 +218,7 @@ export const Dashboard: React.FC = () => {
             <button
               onClick={() => setViewMode('list')}
               className={`p-1.5 rounded-md text-xs transition-colors ${
-                viewMode === 'list' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'
+                viewMode === 'list' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-zinc-200'
               }`}
               aria-label="List view"
             >
@@ -273,12 +273,12 @@ export const Dashboard: React.FC = () => {
               className="p-5 flex flex-col justify-between group relative overflow-hidden"
             >
               {/* Subtle ambient accent glow based on type */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-sky-500/5 rounded-full blur-xl pointer-events-none group-hover:bg-sky-500/10 transition-all" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-xl pointer-events-none group-hover:bg-indigo-500/10 transition-all" />
 
               <div>
                 {/* Header row */}
                 <div className="flex items-start justify-between gap-3 mb-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400 flex-shrink-0 group-hover:border-sky-500/50 transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-zinc-800/90 border border-zinc-700/80 flex items-center justify-center text-indigo-400 flex-shrink-0 group-hover:border-indigo-500/50 transition-colors">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -295,18 +295,18 @@ export const Dashboard: React.FC = () => {
                 </h3>
 
                 {/* Metadata Pills */}
-                <div className="flex flex-wrap items-center gap-2.5 text-xs text-slate-300 mt-2.5 mb-4">
-                  <span className="font-mono text-[11px] text-slate-300">{formatFileSize(doc.file_size)}</span>
+                <div className="flex flex-wrap items-center gap-2.5 text-xs text-zinc-400 mt-2.5 mb-4">
+                  <span className="font-mono text-[11px] text-zinc-300">{formatFileSize(doc.file_size)}</span>
                   {doc.word_count !== null && doc.word_count !== undefined && (
                     <span className="flex items-center gap-1">
-                      <Layers className="w-3 h-3 text-slate-400" />
+                      <Layers className="w-3 h-3 text-zinc-500" />
                       {doc.word_count.toLocaleString()} words
                     </span>
                   )}
                   {doc.page_count !== null && doc.page_count !== undefined && (
                     <span>{doc.page_count} {doc.page_count === 1 ? 'page' : 'pages'}</span>
                   )}
-                  <span className="flex items-center gap-1 text-[11px] text-slate-400">
+                  <span className="flex items-center gap-1 text-[11px] text-zinc-500">
                     <Calendar className="w-3 h-3" />
                     {formatDate(doc.created_at)}
                   </span>
@@ -314,7 +314,7 @@ export const Dashboard: React.FC = () => {
               </div>
 
               {/* Action Bottom Bar */}
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
+              <div className="pt-3 border-t border-zinc-800 flex items-center justify-between gap-2">
                 <Link to={`/documents/${doc.id}`} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full" rightIcon={<ExternalLink className="w-3.5 h-3.5" />}>
                     Open Workspace
@@ -324,7 +324,7 @@ export const Dashboard: React.FC = () => {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={(e) => copyDocId(doc.id, e)}
-                    className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                    className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
                     title="Copy Document ID"
                   >
                     {copiedId === doc.id ? (
@@ -335,7 +335,7 @@ export const Dashboard: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setDocToDelete(doc)}
-                    className="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                    className="p-2 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                     title="Delete Document"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -351,7 +351,7 @@ export const Dashboard: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 bg-[#0b0f19] text-slate-300 font-bold">
+                <tr className="border-b border-zinc-800 bg-[#0e0f15] text-zinc-300 font-bold">
                   <th className="py-3.5 px-4">Document</th>
                   <th className="py-3.5 px-4">Format</th>
                   <th className="py-3.5 px-4">Size</th>
@@ -360,19 +360,19 @@ export const Dashboard: React.FC = () => {
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-200">
+              <tbody className="divide-y divide-zinc-800 text-zinc-300">
                 {filteredDocuments.map((doc) => (
-                  <tr key={doc.id} className="hover:bg-slate-800/40 transition-colors">
+                  <tr key={doc.id} className="hover:bg-zinc-800/40 transition-colors">
                     <td className="py-3.5 px-4 font-semibold text-white">
                       <div className="flex items-center gap-2.5 max-w-xs sm:max-w-sm truncate">
-                        <FileText className="w-4 h-4 text-sky-400 flex-shrink-0" />
+                        <FileText className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                         <span className="truncate" title={doc.filename}>{doc.filename || doc.original_filename}</span>
                       </div>
                     </td>
                     <td className="py-3.5 px-4">{getFormatBadge(doc.file_type)}</td>
-                    <td className="py-3.5 px-4 font-mono text-slate-300">{formatFileSize(doc.file_size)}</td>
-                    <td className="py-3.5 px-4 text-slate-300">{doc.word_count?.toLocaleString() || '—'}</td>
-                    <td className="py-3.5 px-4 text-slate-400">{formatDate(doc.created_at)}</td>
+                    <td className="py-3.5 px-4 font-mono text-zinc-300">{formatFileSize(doc.file_size)}</td>
+                    <td className="py-3.5 px-4 text-zinc-300">{doc.word_count?.toLocaleString() || '—'}</td>
+                    <td className="py-3.5 px-4 text-zinc-400">{formatDate(doc.created_at)}</td>
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link to={`/documents/${doc.id}`}>
@@ -382,14 +382,14 @@ export const Dashboard: React.FC = () => {
                         </Link>
                         <button
                           onClick={(e) => copyDocId(doc.id, e)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                          className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800"
                           title="Copy ID"
                         >
                           {copiedId === doc.id ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                         </button>
                         <button
                           onClick={() => setDocToDelete(doc)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10"
+                          className="p-1.5 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10"
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -407,14 +407,14 @@ export const Dashboard: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {docToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
-          <div className="bg-[#111827] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-800 space-y-4">
+          <div className="bg-[#12131a] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-zinc-800 space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center flex-shrink-0 border border-rose-500/20">
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <button
                 onClick={() => setDocToDelete(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                className="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800"
                 disabled={isDeleting}
               >
                 <X className="w-5 h-5" />
@@ -423,7 +423,7 @@ export const Dashboard: React.FC = () => {
 
             <div>
               <h3 className="text-lg font-bold text-white">Delete Document</h3>
-              <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+              <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
                 Are you sure you want to delete <span className="font-semibold text-white">"{docToDelete.filename || docToDelete.original_filename}"</span>? This will permanently remove the storage file and all associated NLP intelligence.
               </p>
             </div>

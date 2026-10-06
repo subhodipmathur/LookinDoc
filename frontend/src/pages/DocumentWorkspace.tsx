@@ -236,7 +236,7 @@ export const DocumentWorkspace: React.FC = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Card className="p-16 text-center bg-[#111827]">
+        <Card className="p-16 text-center bg-[#12131a]">
           <LoadingSpinner size="lg" label="Loading document intelligence from encrypted vault..." />
         </Card>
       </div>
@@ -246,12 +246,12 @@ export const DocumentWorkspace: React.FC = () => {
   if (notFound) {
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-        <Card className="p-12 space-y-4 bg-[#111827]">
+        <Card className="p-12 space-y-4 bg-[#12131a]">
           <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mx-auto">
             <FileText className="w-8 h-8" />
           </div>
           <h2 className="text-2xl font-bold text-white">Document Not Found</h2>
-          <p className="text-sm text-slate-300 max-w-md mx-auto">
+          <p className="text-sm text-zinc-300 max-w-md mx-auto">
             The document record with ID <span className="font-mono text-white font-semibold">{id}</span> does not exist or has been permanently deleted.
           </p>
           <div className="pt-2">
@@ -269,7 +269,7 @@ export const DocumentWorkspace: React.FC = () => {
   if (error || !document) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Card className="p-8 bg-[#111827]">
+        <Card className="p-8 bg-[#12131a]">
           <ErrorAlert
             title="Failed to load document"
             message={error || 'An unexpected error occurred while loading this document.'}
@@ -303,11 +303,11 @@ export const DocumentWorkspace: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Top Header & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-[#111827] border border-slate-700/80 shadow-xl backdrop-blur-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-[#12131a] border border-zinc-800 shadow-xl backdrop-blur-md">
         <div className="flex items-center gap-4 min-w-0">
           <Link
             to="/dashboard"
-            className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white transition-all flex-shrink-0 border border-slate-700"
+            className="p-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white transition-all flex-shrink-0 border border-zinc-700"
             title="Back to Document Vault"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -324,14 +324,14 @@ export const DocumentWorkspace: React.FC = () => {
                 Grounded NLP Ready
               </Badge>
             </div>
-            <div className="flex items-center gap-3 text-xs text-slate-300 mt-1 flex-wrap">
+            <div className="flex items-center gap-3 text-xs text-zinc-400 mt-1 flex-wrap">
               <span>{formatFileSize(document.file_size)}</span>
               <span>•</span>
               <span>Uploaded {formatDate(document.created_at)}</span>
               <span>•</span>
               <button
                 onClick={handleCopyId}
-                className="font-mono text-[11px] text-slate-300 hover:text-white flex items-center gap-1 transition-colors bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-700"
+                className="font-mono text-[11px] text-zinc-300 hover:text-white flex items-center gap-1 transition-colors bg-zinc-800/80 px-2 py-0.5 rounded-md border border-zinc-700"
                 title="Copy Document ID"
               >
                 ID: {document.id.slice(0, 8)}...
@@ -374,7 +374,7 @@ export const DocumentWorkspace: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left Sidebar Navigation */}
         <div className="lg:col-span-1 space-y-4">
-          <Card className="p-2 space-y-1 bg-[#111827]">
+          <Card className="p-2 space-y-1 bg-[#12131a]">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isCurrent = activeTab === item.id;
@@ -384,11 +384,11 @@ export const DocumentWorkspace: React.FC = () => {
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-left ${
                     isCurrent
-                      ? 'bg-sky-500/20 text-sky-200 border border-sky-500/40 shadow-sm'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/80 border border-transparent'
+                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
+                      : 'text-zinc-300 hover:text-white hover:bg-zinc-800/80 border border-transparent'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isCurrent ? 'text-sky-400' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isCurrent ? 'text-white' : 'text-zinc-400'}`} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -396,26 +396,26 @@ export const DocumentWorkspace: React.FC = () => {
           </Card>
 
           {/* Quick NLP Pipeline Summary Widget */}
-          <Card className="p-4 bg-[#111827] border-slate-700/80 text-xs space-y-3">
-            <span className="font-bold text-slate-200 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+          <Card className="p-4 bg-[#12131a] border-zinc-800 text-xs space-y-3">
+            <span className="font-bold text-zinc-200 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
               Intelligence Telemetry
             </span>
-            <div className="flex items-center justify-between text-slate-300">
+            <div className="flex items-center justify-between text-zinc-300">
               <span>TF-IDF Keywords</span>
               <span className="font-bold text-white">{keywords.length} terms</span>
             </div>
-            <div className="flex items-center justify-between text-slate-300">
+            <div className="flex items-center justify-between text-zinc-300">
               <span>Named Entities</span>
               <span className="font-bold text-white">
                 {Object.values(entitiesMap).reduce((acc: number, curr: EntityItem[]) => acc + curr.length, 0)} detected
               </span>
             </div>
-            <div className="flex items-center justify-between text-slate-300">
+            <div className="flex items-center justify-between text-zinc-300">
               <span>Summary Centrality</span>
               <span className="font-semibold text-emerald-400">Extractive Salience</span>
             </div>
-            <div className="flex items-center justify-between text-slate-300">
+            <div className="flex items-center justify-between text-zinc-300">
               <span>Hallucination Rate</span>
               <span className="font-semibold text-emerald-400">0.0% (Deterministic)</span>
             </div>
@@ -425,11 +425,11 @@ export const DocumentWorkspace: React.FC = () => {
         {/* Main Content Workspace Area */}
         <div className="lg:col-span-3">
           {analysisLoading ? (
-            <Card className="p-16 text-center bg-[#111827]">
+            <Card className="p-16 text-center bg-[#12131a]">
               <LoadingSpinner size="lg" label="Computing NLP intelligence pipeline..." />
             </Card>
           ) : (
-            <Card className="p-6 sm:p-8 bg-[#111827]">
+            <Card className="p-6 sm:p-8 bg-[#12131a]">
               {/* ========================================================================= */}
               {/* TAB 1: OVERVIEW & STATS */}
               {/* ========================================================================= */}
@@ -437,61 +437,61 @@ export const DocumentWorkspace: React.FC = () => {
                 <div className="space-y-8 animate-fadeIn">
                   <div>
                     <h2 className="text-xl font-bold text-white">Document Overview & Metrics</h2>
-                    <p className="text-xs text-slate-300 mt-1">
+                    <p className="text-xs text-zinc-400 mt-1">
                       Exact structural statistics, linguistic metrics, and intelligence summary.
                     </p>
                   </div>
 
                   {/* 6 Metric Cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    <div className="p-4 bg-[#0b0f19] rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-xs text-slate-400 font-medium">Word Count</span>
-                      <p className="text-2xl font-black text-white">{stats.word_count.toLocaleString()}</p>
-                      <span className="text-[10px] text-slate-400">Total tokens</span>
+                    <div className="p-4 bg-[#0e0f15] rounded-xl border border-zinc-800 space-y-1">
+                      <span className="text-xs text-zinc-400 font-medium">Word Count</span>
+                      <p className="text-2xl font-bold text-white">{stats.word_count.toLocaleString()}</p>
+                      <span className="text-[10px] text-zinc-400">Total tokens</span>
                     </div>
-                    <div className="p-4 bg-[#0b0f19] rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-xs text-slate-400 font-medium">Sentence Count</span>
-                      <p className="text-2xl font-black text-white">{stats.sentence_count.toLocaleString()}</p>
-                      <span className="text-[10px] text-slate-400">spaCy Segmented</span>
+                    <div className="p-4 bg-[#0e0f15] rounded-xl border border-zinc-800 space-y-1">
+                      <span className="text-xs text-zinc-400 font-medium">Sentence Count</span>
+                      <p className="text-2xl font-bold text-white">{stats.sentence_count.toLocaleString()}</p>
+                      <span className="text-[10px] text-zinc-400">spaCy Segmented</span>
                     </div>
-                    <div className="p-4 bg-[#0b0f19] rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-xs text-slate-400 font-medium">Pages</span>
-                      <p className="text-2xl font-black text-white">{stats.page_count}</p>
-                      <span className="text-[10px] text-slate-400">Document pages</span>
+                    <div className="p-4 bg-[#0e0f15] rounded-xl border border-zinc-800 space-y-1">
+                      <span className="text-xs text-zinc-400 font-medium">Pages</span>
+                      <p className="text-2xl font-bold text-white">{stats.page_count}</p>
+                      <span className="text-[10px] text-zinc-400">Document pages</span>
                     </div>
-                    <div className="p-4 bg-[#0b0f19] rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-xs text-slate-400 font-medium">Reading Time</span>
-                      <p className="text-2xl font-black text-white">~{stats.estimated_reading_time_mins} min</p>
-                      <span className="text-[10px] text-slate-400">@ 200 wpm</span>
+                    <div className="p-4 bg-[#0e0f15] rounded-xl border border-zinc-800 space-y-1">
+                      <span className="text-xs text-zinc-400 font-medium">Reading Time</span>
+                      <p className="text-2xl font-bold text-white">~{stats.estimated_reading_time_mins} min</p>
+                      <span className="text-[10px] text-zinc-400">@ 200 wpm</span>
                     </div>
-                    <div className="p-4 bg-[#0b0f19] rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-xs text-slate-400 font-medium">Avg Sentence Length</span>
-                      <p className="text-2xl font-black text-white">{stats.avg_sentence_length}</p>
-                      <span className="text-[10px] text-slate-400">Words / sentence</span>
+                    <div className="p-4 bg-[#0e0f15] rounded-xl border border-zinc-800 space-y-1">
+                      <span className="text-xs text-zinc-400 font-medium">Avg Sentence Length</span>
+                      <p className="text-2xl font-bold text-white">{stats.avg_sentence_length}</p>
+                      <span className="text-[10px] text-zinc-400">Words / sentence</span>
                     </div>
-                    <div className="p-4 bg-[#0b0f19] rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-xs text-slate-400 font-medium">Vocabulary Richness</span>
-                      <p className="text-2xl font-black text-sky-400">{(stats.vocabulary_richness * 100).toFixed(1)}%</p>
-                      <span className="text-[10px] text-slate-400">Type-Token Ratio</span>
+                    <div className="p-4 bg-[#0e0f15] rounded-xl border border-zinc-800 space-y-1">
+                      <span className="text-xs text-zinc-400 font-medium">Vocabulary Richness</span>
+                      <p className="text-2xl font-bold text-indigo-400">{(stats.vocabulary_richness * 100).toFixed(1)}%</p>
+                      <span className="text-[10px] text-zinc-400">Type-Token Ratio</span>
                     </div>
                   </div>
 
                   {/* Summary Snapshot Card */}
                   {customSummary && customSummary.summary_text && (
-                    <div className="p-5 bg-[#0b0f19] rounded-2xl border border-sky-500/30 space-y-3">
+                    <div className="p-5 bg-[#0e0f15] rounded-2xl border border-indigo-500/30 space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-sky-300 uppercase tracking-wider flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+                        <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
                           Extractive Summary Preview
                         </span>
                         <button
                           onClick={() => setActiveTab('summary')}
-                          className="text-xs font-semibold text-sky-300 hover:text-white flex items-center gap-1"
+                          className="text-xs font-semibold text-indigo-300 hover:text-white flex items-center gap-1"
                         >
                           Full Summary <ArrowRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <p className="text-sm text-slate-200 leading-relaxed italic bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                      <p className="text-sm text-zinc-200 leading-relaxed italic bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
                         "{customSummary.summary_text}"
                       </p>
                     </div>
@@ -502,12 +502,12 @@ export const DocumentWorkspace: React.FC = () => {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                          <Tag className="w-4 h-4 text-sky-400" />
+                          <Tag className="w-4 h-4 text-indigo-400" />
                           Top Ranked TF-IDF Keywords
                         </h3>
                         <button
                           onClick={() => setActiveTab('keywords')}
-                          className="text-xs font-semibold text-sky-300 hover:text-white flex items-center gap-1"
+                          className="text-xs font-semibold text-indigo-300 hover:text-white flex items-center gap-1"
                         >
                           View all <ArrowRight className="w-3.5 h-3.5" />
                         </button>
@@ -516,10 +516,10 @@ export const DocumentWorkspace: React.FC = () => {
                         {keywords.slice(0, 10).map((kw) => (
                           <span
                             key={kw.keyword}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0b0f19] hover:bg-slate-800 text-slate-200 text-xs font-medium rounded-xl border border-slate-700/80 transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0e0f15] hover:bg-zinc-800 text-zinc-200 text-xs font-medium rounded-xl border border-zinc-800 transition-colors"
                           >
                             <span>{kw.keyword}</span>
-                            <span className="text-[10px] text-sky-300 font-bold font-mono">{(kw.score * 100).toFixed(0)}</span>
+                            <span className="text-[10px] text-indigo-300 font-bold font-mono">{(kw.score * 100).toFixed(0)}</span>
                           </span>
                         ))}
                       </div>
@@ -536,7 +536,7 @@ export const DocumentWorkspace: React.FC = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h2 className="text-xl font-bold text-white">Document Reader</h2>
-                      <p className="text-xs text-slate-300 mt-1">
+                      <p className="text-xs text-zinc-400 mt-1">
                         High-contrast, eye-soothing reading view with real-time text search and export.
                       </p>
                     </div>
@@ -570,18 +570,18 @@ export const DocumentWorkspace: React.FC = () => {
 
                   {/* Filter / in-document search */}
                   <div className="relative">
-                    <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
                       placeholder="Filter text lines..."
                       value={readerFilter}
                       onChange={(e) => setReaderFilter(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 bg-[#0b0f19] border border-slate-700/80 rounded-xl text-xs text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                      className="w-full pl-10 pr-4 py-2 bg-[#0e0f15] border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                     />
                   </div>
 
                   {/* Text Reading Pane */}
-                  <div className="p-6 sm:p-8 rounded-2xl bg-[#0b0f19] border border-slate-800 max-h-[550px] overflow-y-auto space-y-4 font-sans text-sm leading-relaxed text-slate-200 shadow-inner">
+                  <div className="p-6 sm:p-8 rounded-2xl bg-[#0e0f15] border border-zinc-800 max-h-[550px] overflow-y-auto space-y-4 font-sans text-sm leading-relaxed text-zinc-200 shadow-inner">
                     {document.extracted_text ? (
                       document.extracted_text
                         .split('\n')
@@ -592,7 +592,7 @@ export const DocumentWorkspace: React.FC = () => {
                           </p>
                         ))
                     ) : (
-                      <p className="text-slate-400 italic">No extracted text found.</p>
+                      <p className="text-zinc-400 italic">No extracted text found.</p>
                     )}
                   </div>
                 </div>
@@ -605,7 +605,7 @@ export const DocumentWorkspace: React.FC = () => {
                 <div className="space-y-6 animate-fadeIn">
                   <div>
                     <h2 className="text-xl font-bold text-white">NLP Passage Search</h2>
-                    <p className="text-xs text-slate-300 mt-1">
+                    <p className="text-xs text-zinc-400 mt-1">
                       High-precision passage retrieval matching natural queries with Cosine Similarity over TF-IDF vectors.
                     </p>
                   </div>
@@ -613,13 +613,13 @@ export const DocumentWorkspace: React.FC = () => {
                   {/* Search Input Box */}
                   <form onSubmit={handleSearch} className="flex gap-2">
                     <div className="relative flex-1">
-                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
                         placeholder="Search concepts, findings, or phrases in this document..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 bg-[#0b0f19] border border-slate-700/80 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                        className="w-full pl-10 pr-4 py-2.5 bg-[#0e0f15] border border-zinc-800 rounded-xl text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                       />
                     </div>
                     <Button type="submit" isLoading={isSearching} disabled={!searchQuery.trim()}>
@@ -629,7 +629,7 @@ export const DocumentWorkspace: React.FC = () => {
 
                   {/* Quick suggestion tags */}
                   {keywords.length > 0 && (
-                    <div className="flex items-center gap-2 flex-wrap text-xs text-slate-300">
+                    <div className="flex items-center gap-2 flex-wrap text-xs text-zinc-400">
                       <span>Suggested:</span>
                       {keywords.slice(0, 4).map((k) => (
                         <button
@@ -638,7 +638,7 @@ export const DocumentWorkspace: React.FC = () => {
                             setSearchQuery(k.keyword);
                             documentApi.search(id!, k.keyword).then((r) => setSearchResults(r.results));
                           }}
-                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 text-[11px]"
+                          className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg border border-zinc-700 text-[11px]"
                         >
                           {k.keyword}
                         </button>
@@ -665,16 +665,16 @@ export const DocumentWorkspace: React.FC = () => {
                       />
                     ) : (
                       <div className="space-y-4 pt-2">
-                        <div className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                        <div className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                           Found {searchResults.length} Relevant {searchResults.length === 1 ? 'Passage' : 'Passages'}
                         </div>
                         {searchResults.map((res, idx) => (
                           <div
                             key={idx}
-                            className="p-5 rounded-2xl bg-[#0b0f19] border border-slate-800 hover:border-sky-500/40 transition-all space-y-3"
+                            className="p-5 rounded-2xl bg-[#0e0f15] border border-zinc-800 hover:border-indigo-500/40 transition-all space-y-3"
                           >
                             <div className="flex items-center justify-between">
-                              <span className="text-xs font-bold text-slate-300">
+                              <span className="text-xs font-bold text-zinc-300">
                                 Chunk #{res.chunk_index + 1}
                               </span>
                               <Badge
@@ -684,7 +684,7 @@ export const DocumentWorkspace: React.FC = () => {
                                 Relevance: {(res.relevance_score * 100).toFixed(1)}%
                               </Badge>
                             </div>
-                            <p className="text-sm text-slate-200 leading-relaxed bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                            <p className="text-sm text-zinc-200 leading-relaxed bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
                               "{res.text}"
                             </p>
                           </div>
@@ -692,7 +692,7 @@ export const DocumentWorkspace: React.FC = () => {
                       </div>
                     )
                   ) : (
-                    <div className="p-8 text-center text-slate-400 bg-[#0b0f19] rounded-2xl border border-dashed border-slate-800 text-xs">
+                    <div className="p-8 text-center text-zinc-400 bg-[#0e0f15] rounded-2xl border border-dashed border-zinc-800 text-xs">
                       Enter a query above to retrieve relevant passages ranked by statistical cosine similarity.
                     </div>
                   )}
@@ -706,7 +706,7 @@ export const DocumentWorkspace: React.FC = () => {
                 <div className="space-y-6 animate-fadeIn">
                   <div>
                     <h2 className="text-xl font-bold text-white">Retrieval-Based Question Answering</h2>
-                    <p className="text-xs text-slate-300 mt-1">
+                    <p className="text-xs text-zinc-400 mt-1">
                       Answers grounded directly in document text without hallucinations or external generative models.
                     </p>
                   </div>
@@ -720,7 +720,7 @@ export const DocumentWorkspace: React.FC = () => {
                         value={questionInput}
                         onChange={(e) => setQuestionInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleAskQuestion()}
-                        className="flex-1 px-4 py-2.5 bg-[#0b0f19] border border-slate-700/80 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                        className="flex-1 px-4 py-2.5 bg-[#0e0f15] border border-zinc-800 rounded-xl text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                       />
                       <Button
                         onClick={() => handleAskQuestion()}
@@ -733,23 +733,23 @@ export const DocumentWorkspace: React.FC = () => {
                     </div>
 
                     {/* Example Question Pills */}
-                    <div className="flex items-center gap-2 flex-wrap text-xs text-slate-300">
+                    <div className="flex items-center gap-2 flex-wrap text-xs text-zinc-400">
                       <span>Example questions:</span>
                       <button
                         onClick={() => handleAskQuestion("What is the primary topic of this document?")}
-                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 text-[11px]"
+                        className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg border border-zinc-700 text-[11px]"
                       >
                         What is the primary topic?
                       </button>
                       <button
                         onClick={() => handleAskQuestion("What key organizations or people are mentioned?")}
-                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 text-[11px]"
+                        className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg border border-zinc-700 text-[11px]"
                       >
                         Key entities mentioned?
                       </button>
                       <button
                         onClick={() => handleAskQuestion("What are the main conclusions?")}
-                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 text-[11px]"
+                        className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg border border-zinc-700 text-[11px]"
                       >
                         Main conclusions?
                       </button>
@@ -767,7 +767,7 @@ export const DocumentWorkspace: React.FC = () => {
                   ) : qaResult ? (
                     <div className="space-y-4 pt-2">
                       {/* Direct Answer Box */}
-                      <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-2">
+                      <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
                             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -784,25 +784,25 @@ export const DocumentWorkspace: React.FC = () => {
 
                       {/* Supporting Passage Evidence Box */}
                       {qaResult.supporting_passage && (
-                        <div className="p-5 rounded-2xl bg-[#0b0f19] border border-slate-800 space-y-2">
-                          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                            <Quote className="w-3.5 h-3.5 text-slate-400" />
+                        <div className="p-5 rounded-2xl bg-[#0e0f15] border border-zinc-800 space-y-2">
+                          <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <Quote className="w-3.5 h-3.5 text-zinc-500" />
                             Verbatim Supporting Passage
                           </span>
-                          <p className="text-sm text-slate-200 leading-relaxed italic bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                          <p className="text-sm text-zinc-200 leading-relaxed italic bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
                             "{qaResult.supporting_passage}"
                           </p>
                         </div>
                       )}
 
                       {/* Deterministic NLP Notice */}
-                      <p className="text-xs text-slate-300 flex items-center gap-1.5 px-1">
-                        <CornerDownRight className="w-3.5 h-3.5 text-sky-400" />
+                      <p className="text-xs text-zinc-400 flex items-center gap-1.5 px-1">
+                        <CornerDownRight className="w-3.5 h-3.5 text-indigo-400" />
                         Retrieved via statistical TF-IDF cosine ranking across indexed document chunks.
                       </p>
                     </div>
                   ) : (
-                    <div className="p-8 text-center text-slate-400 bg-[#0b0f19] rounded-2xl border border-dashed border-slate-800 text-xs">
+                    <div className="p-8 text-center text-zinc-400 bg-[#0e0f15] rounded-2xl border border-dashed border-zinc-800 text-xs">
                       Ask any question above to receive grounded answers with direct supporting quotes.
                     </div>
                   )}
@@ -817,21 +817,21 @@ export const DocumentWorkspace: React.FC = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h2 className="text-xl font-bold text-white">Extractive Summarization</h2>
-                      <p className="text-xs text-slate-300 mt-1">
+                      <p className="text-xs text-zinc-400 mt-1">
                         Sentence saliency scoring via TF-IDF centrality, preserving original phrasing.
                       </p>
                     </div>
 
                     {/* Mode Selector */}
-                    <div className="inline-flex rounded-xl bg-[#0b0f19] p-1 border border-slate-800">
+                    <div className="inline-flex rounded-xl bg-[#0e0f15] p-1 border border-zinc-800">
                       {(['short', 'medium', 'detailed'] as const).map((mode) => (
                         <button
                           key={mode}
                           onClick={() => handleSummaryModeChange(mode)}
                           className={`px-3 py-1.5 text-xs font-semibold rounded-lg capitalize transition-all ${
                             summaryMode === mode
-                              ? 'bg-sky-500 text-white shadow-sm'
-                              : 'text-slate-300 hover:text-white'
+                              ? 'bg-indigo-600 text-white shadow-sm'
+                              : 'text-zinc-400 hover:text-white'
                           }`}
                         >
                           {mode}
@@ -842,17 +842,17 @@ export const DocumentWorkspace: React.FC = () => {
 
                   {/* Summary Metric Stats */}
                   {customSummary && (
-                    <div className="grid grid-cols-3 gap-3 p-4 bg-[#0b0f19] rounded-xl border border-slate-800 text-xs">
+                    <div className="grid grid-cols-3 gap-3 p-4 bg-[#0e0f15] rounded-xl border border-zinc-800 text-xs">
                       <div>
-                        <span className="text-slate-400">Summary Length</span>
+                        <span className="text-zinc-400">Summary Length</span>
                         <p className="text-base font-bold text-white">{customSummary.sentence_count} sentences</p>
                       </div>
                       <div>
-                        <span className="text-slate-400">Original Length</span>
+                        <span className="text-zinc-400">Original Length</span>
                         <p className="text-base font-bold text-white">{customSummary.original_sentence_count} sentences</p>
                       </div>
                       <div>
-                        <span className="text-slate-400">Compression</span>
+                        <span className="text-zinc-400">Compression</span>
                         <p className="text-base font-bold text-emerald-400">
                           {(100 - customSummary.compression_ratio * 100).toFixed(0)}% reduced
                         </p>
@@ -867,23 +867,23 @@ export const DocumentWorkspace: React.FC = () => {
                     </div>
                   ) : customSummary && customSummary.summary_text ? (
                     <div className="space-y-4">
-                      <div className="p-6 bg-[#0b0f19] rounded-2xl border border-slate-800 text-slate-200 text-base leading-relaxed">
+                      <div className="p-6 bg-[#0e0f15] rounded-2xl border border-zinc-800 text-zinc-200 text-base leading-relaxed">
                         {customSummary.summary_text}
                       </div>
 
                       {/* Individual Salient Sentences Breakdown */}
                       {customSummary.selected_sentences && customSummary.selected_sentences.length > 0 && (
                         <div className="space-y-2 pt-2">
-                          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
                             Extracted Salient Sentences
                           </h4>
                           <div className="space-y-2">
                             {customSummary.selected_sentences.map((sent, idx) => (
                               <div
                                 key={idx}
-                                className="flex items-start gap-3 p-3.5 bg-[#0b0f19] rounded-xl border border-slate-800 text-xs text-slate-200"
+                                className="flex items-start gap-3 p-3.5 bg-[#0e0f15] rounded-xl border border-zinc-800 text-xs text-zinc-200"
                               >
-                                <span className="font-bold text-sky-400 min-w-5">{idx + 1}.</span>
+                                <span className="font-bold text-indigo-400 min-w-5">{idx + 1}.</span>
                                 <p className="flex-1">{sent}</p>
                               </div>
                             ))}
@@ -892,7 +892,7 @@ export const DocumentWorkspace: React.FC = () => {
                       )}
                     </div>
                   ) : (
-                    <div className="p-8 text-center text-slate-400 bg-[#0b0f19] rounded-xl border border-slate-800 text-xs">
+                    <div className="p-8 text-center text-zinc-400 bg-[#0e0f15] rounded-xl border border-zinc-800 text-xs">
                       No summary available.
                     </div>
                   )}
@@ -906,7 +906,7 @@ export const DocumentWorkspace: React.FC = () => {
                 <div className="space-y-6 animate-fadeIn">
                   <div>
                     <h2 className="text-xl font-bold text-white">TF-IDF Keyword Extraction</h2>
-                    <p className="text-xs text-slate-300 mt-1">
+                    <p className="text-xs text-zinc-400 mt-1">
                       Statistical term importance ranking calculated from document term and inverse document frequencies.
                     </p>
                   </div>
@@ -923,10 +923,10 @@ export const DocumentWorkspace: React.FC = () => {
                         {keywords.map((kw) => (
                           <div
                             key={kw.keyword}
-                            className="p-3.5 bg-[#0b0f19] rounded-xl border border-slate-800 flex items-center justify-between gap-3 hover:border-slate-700 transition-colors"
+                            className="p-3.5 bg-[#0e0f15] rounded-xl border border-zinc-800 flex items-center justify-between gap-3 hover:border-zinc-700 transition-colors"
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <span className="text-xs font-bold text-sky-400 w-6">
+                              <span className="text-xs font-bold text-indigo-400 w-6">
                                 #{kw.rank}
                               </span>
                               <span className="text-sm font-semibold text-white truncate">
@@ -934,13 +934,13 @@ export const DocumentWorkspace: React.FC = () => {
                               </span>
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">
-                              <div className="w-16 bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                              <div className="w-16 bg-zinc-800 rounded-full h-1.5 overflow-hidden">
                                 <div
-                                  className="bg-sky-400 h-1.5 rounded-full"
+                                  className="bg-indigo-500 h-1.5 rounded-full"
                                   style={{ width: `${Math.min(100, kw.score * 120)}%` }}
                                 />
                               </div>
-                              <span className="text-xs font-mono font-bold text-slate-300 min-w-8 text-right">
+                              <span className="text-xs font-mono font-bold text-zinc-400 min-w-8 text-right">
                                 {kw.score.toFixed(2)}
                               </span>
                             </div>
@@ -959,7 +959,7 @@ export const DocumentWorkspace: React.FC = () => {
                 <div className="space-y-6 animate-fadeIn">
                   <div>
                     <h2 className="text-xl font-bold text-white">Named Entity Recognition (spaCy)</h2>
-                    <p className="text-xs text-slate-300 mt-1">
+                    <p className="text-xs text-zinc-400 mt-1">
                       Categorized entity extraction for people, organizations, locations, dates, and institutions.
                     </p>
                   </div>
@@ -972,8 +972,8 @@ export const DocumentWorkspace: React.FC = () => {
                         onClick={() => setSelectedEntityCategory(cat)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                           selectedEntityCategory === cat
-                            ? 'bg-sky-500 text-white shadow-sm'
-                            : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
+                            ? 'bg-indigo-600 text-white shadow-sm'
+                            : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
                         }`}
                       >
                         {cat}
@@ -993,13 +993,13 @@ export const DocumentWorkspace: React.FC = () => {
                       {filteredEntities.map((ent, idx) => (
                         <div
                           key={idx}
-                          className="p-3.5 bg-[#0b0f19] rounded-xl border border-slate-800 flex items-center justify-between gap-2 hover:border-slate-700 transition-colors"
+                          className="p-3.5 bg-[#0e0f15] rounded-xl border border-zinc-800 flex items-center justify-between gap-2 hover:border-zinc-700 transition-colors"
                         >
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-white truncate" title={ent.entity_text}>
                               {ent.entity_text}
                             </p>
-                            <span className="text-[10px] text-sky-300 font-medium">
+                            <span className="text-[10px] text-indigo-300 font-medium">
                               {ent.entity_label}
                             </span>
                           </div>
@@ -1022,14 +1022,14 @@ export const DocumentWorkspace: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {isDeleteOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
-          <div className="bg-[#111827] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-800 space-y-4">
+          <div className="bg-[#12131a] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-zinc-800 space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center flex-shrink-0 border border-rose-500/20">
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <button
                 onClick={() => setIsDeleteOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                className="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800"
                 disabled={isDeleting}
               >
                 <X className="w-5 h-5" />
@@ -1038,7 +1038,7 @@ export const DocumentWorkspace: React.FC = () => {
 
             <div>
               <h3 className="text-lg font-bold text-white">Delete Document</h3>
-              <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+              <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
                 Are you sure you want to delete <span className="font-semibold text-white">"{document.filename || document.original_filename}"</span>? This will permanently remove the record, storage file, and all associated NLP intelligence.
               </p>
             </div>

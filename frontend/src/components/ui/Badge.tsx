@@ -16,17 +16,17 @@ export const Badge: React.FC<BadgeProps> = ({
   icon,
 }) => {
   const variantStyles = {
-    brand: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
-    success: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-    warning: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-    error: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-    neutral: 'bg-slate-800 text-slate-200 border-slate-700',
-    purple: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+    brand: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/25',
+    success: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25',
+    warning: 'bg-amber-500/10 text-amber-300 border-amber-500/25',
+    error: 'bg-rose-500/10 text-rose-300 border-rose-500/25',
+    neutral: 'bg-zinc-800/90 text-zinc-300 border-zinc-700/80',
+    purple: 'bg-purple-500/10 text-purple-300 border-purple-500/25',
   };
 
   const sizeStyles = {
-    sm: 'text-[11px] px-2.5 py-0.5 font-semibold',
-    md: 'text-xs px-3 py-1 font-semibold',
+    sm: 'text-[11px] px-2.5 py-0.5 font-medium',
+    md: 'text-xs px-3 py-1 font-medium',
   };
 
   return (
