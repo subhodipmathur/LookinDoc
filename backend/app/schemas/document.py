@@ -26,6 +26,7 @@ class DocumentListItem(BaseModel):
 
 class DocumentDetail(DocumentListItem):
     storage_path: Optional[str] = None
+    extracted_text: Optional[str] = None
     sentence_count: Optional[int] = None
     character_count: Optional[int] = None
 

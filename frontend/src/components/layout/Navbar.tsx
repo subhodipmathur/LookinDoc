@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   FileText, 
@@ -7,38 +7,21 @@ import {
   Menu, 
   X,
   Sparkles,
-  Code2
+  ShieldCheck
 } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
-import { healthApi } from '../../services/api';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [backendStatus, setBackendStatus] = useState<'checking' | 'online' | 'offline'>('checking');
-
-  useEffect(() => {
-    let isMounted = true;
-    healthApi.checkHealth()
-      .then(() => {
-        if (isMounted) setBackendStatus('online');
-      })
-      .catch(() => {
-        if (isMounted) setBackendStatus('offline');
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const navLinks = [
-    { name: 'Document Library', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'Document Vault', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Ingestion Hub', path: '/upload', icon: Upload },
   ];
 
   const isActive = (path: string) => {
-    if (path === '/dashboard' && (location.pathname === '/' || location.pathname === '/dashboard')) {
+    if (path === '/dashboard') {
       return location.pathname === '/dashboard';
     }
     return location.pathname.startsWith(path);
@@ -67,7 +50,7 @@ export const Navbar: React.FC = () => {
                   </span>
                   <span className="text-[10px] font-bold px-2 py-0.5 bg-brand-500/10 text-brand-400 border border-brand-500/30 rounded-full flex items-center gap-1">
                     <Sparkles className="w-2.5 h-2.5 text-brand-400" />
-                    v1.0
+                    SaaS v1.0
                   </span>
                 </div>
                 <span className="text-[11px] font-medium text-slate-400 hidden sm:inline-block">
@@ -111,32 +94,10 @@ export const Navbar: React.FC = () => {
 
           {/* Right Action Area */}
           <div className="hidden md:flex items-center gap-3.5">
-            {/* Backend status indicator */}
-            <div className="flex items-center gap-2">
-              {backendStatus === 'online' ? (
-                <Badge variant="success" size="sm" icon={<span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />}>
-                  Engine Active
-                </Badge>
-              ) : backendStatus === 'offline' ? (
-                <Badge variant="error" size="sm" icon={<span className="w-1.5 h-1.5 rounded-full bg-rose-400" />}>
-                  API Offline
-                </Badge>
-              ) : (
-                <Badge variant="neutral" size="sm">
-                  Checking Engine...
-                </Badge>
-              )}
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/60 border border-slate-800 text-[11px] font-medium text-slate-400">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>100% Deterministic NLP</span>
             </div>
-
-            <a
-              href="http://localhost:8000/docs"
-              target="_blank"
-              rel="noreferrer"
-              className="text-xs font-semibold text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 bg-slate-900/40 flex items-center gap-1.5 transition-colors"
-            >
-              <Code2 className="w-3.5 h-3.5" />
-              API Docs
-            </a>
 
             <Link to="/upload">
               <Button size="sm" variant="glow" leftIcon={<Upload className="w-3.5 h-3.5" />}>

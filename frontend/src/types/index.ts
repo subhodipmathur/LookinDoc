@@ -15,6 +15,7 @@ export interface DocumentListItem {
 
 export interface DocumentDetail extends DocumentListItem {
   storage_path?: string | null;
+  extracted_text?: string | null;
   sentence_count?: number | null;
   character_count?: number | null;
 }

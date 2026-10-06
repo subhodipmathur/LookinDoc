@@ -20,7 +20,7 @@ _LIST_COLUMNS = (
 )
 _DETAIL_COLUMNS = (
     "id, filename, original_filename, file_type, file_size, storage_path, "
-    "processing_status, word_count, page_count, sentence_count, "
+    "extracted_text, processing_status, word_count, page_count, sentence_count, "
     "character_count, created_at, updated_at"
 )
 _TABLE_DOCUMENTS = "documents"
