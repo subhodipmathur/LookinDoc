@@ -4,42 +4,51 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-100 font-sans selection:bg-brand-500 selection:text-white antialiased min-h-screen flex flex-col;
+    /* Eye-soothing deep slate foundation that minimizes glare for extended reading */
+    @apply bg-[#0b0f19] text-[#e2e8f0] font-sans antialiased min-h-screen flex flex-col selection:bg-brand-500/30 selection:text-brand-200;
     background-image: 
-      radial-gradient(at 50% 0%, rgba(14, 142, 233, 0.08) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 40%),
-      radial-gradient(at 0% 100%, rgba(14, 142, 233, 0.04) 0px, transparent 40%);
+      radial-gradient(at 50% 0%, rgba(14, 142, 233, 0.07) 0px, transparent 45%),
+      radial-gradient(at 100% 20%, rgba(99, 102, 241, 0.05) 0px, transparent 40%),
+      radial-gradient(at 0% 80%, rgba(16, 185, 129, 0.03) 0px, transparent 40%);
     background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-[#f8fafc] font-bold tracking-tight;
+  }
+
+  p {
+    @apply text-[#94a3b8] leading-relaxed;
   }
 }
 
-/* Glassmorphism & SaaS Card Utilities */
+/* Eye-soothing Surface Utilities */
 .glass-panel {
-  @apply bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 shadow-xl shadow-black/20;
+  @apply bg-[#111827]/90 backdrop-blur-xl border border-slate-800/90 shadow-xl shadow-black/30;
 }
 
 .glass-panel-interactive {
-  @apply bg-slate-900/70 hover:bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-slate-700/90 transition-all duration-200 shadow-lg shadow-black/20 hover:shadow-brand-500/5 hover:-translate-y-0.5;
+  @apply bg-[#111827]/80 hover:bg-[#162032] backdrop-blur-xl border border-slate-800/90 hover:border-slate-700 transition-all duration-200 shadow-lg shadow-black/20 hover:shadow-brand-500/10 hover:-translate-y-0.5;
 }
 
 .glow-brand {
-  box-shadow: 0 0 30px -5px rgba(14, 142, 233, 0.25);
+  box-shadow: 0 0 35px -5px rgba(14, 142, 233, 0.22);
 }
 
 .glow-emerald {
-  box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.18);
 }
 
-/* Custom scrollbar */
+/* Custom Eye-Friendly Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(11, 15, 25, 0.6);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-800 rounded-full hover:bg-slate-700 transition-colors;
+  @apply bg-slate-700/80 rounded-full hover:bg-slate-600 transition-colors;
 }

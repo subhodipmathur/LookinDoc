@@ -160,43 +160,43 @@ export const Upload: React.FC = () => {
         <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
           Ingest & Analyze Document
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+        <p className="text-slate-300 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
           Upload any PDF, Word document, or TXT file to initiate multi-threaded extraction, TF-IDF feature weighting, and spaCy linguistic parsing.
         </p>
       </div>
 
-      <Card className="p-6 sm:p-10 space-y-6">
+      <Card className="p-6 sm:p-10 space-y-6 bg-[#111827]">
         {/* ========================================================================= */}
         {/* SUCCESS STAGE */}
         {/* ========================================================================= */}
         {stage === 'complete' && uploadedDoc ? (
           <div className="space-y-6 py-4 animate-fadeIn">
             <div className="text-center space-y-3">
-              <div className="w-16 h-16 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/10">
+              <div className="w-16 h-16 rounded-3xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/10">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <h2 className="text-2xl font-bold text-white">Document Intelligence Ready!</h2>
-              <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
-                Text layers extracted, chunks vectorized, entities categorized, and analysis securely saved to Supabase.
+              <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
+                Text layers extracted, chunks vectorized, entities categorized, and analysis securely indexed.
               </p>
             </div>
 
             {/* Extracted Stats Overview */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/70 p-4 rounded-2xl border border-slate-800">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#0b0f19] p-4 rounded-2xl border border-slate-800">
               <div className="text-center p-2">
-                <span className="text-[11px] text-slate-500 font-medium">Format</span>
+                <span className="text-xs text-slate-400 font-medium">Format</span>
                 <p className="text-base font-bold text-white uppercase">{uploadedDoc.file_type}</p>
               </div>
               <div className="text-center p-2">
-                <span className="text-[11px] text-slate-500 font-medium">Tokens (Words)</span>
-                <p className="text-base font-bold text-brand-400">{uploadedDoc.word_count?.toLocaleString() || 0}</p>
+                <span className="text-xs text-slate-400 font-medium">Tokens (Words)</span>
+                <p className="text-base font-bold text-sky-400">{uploadedDoc.word_count?.toLocaleString() || 0}</p>
               </div>
               <div className="text-center p-2">
-                <span className="text-[11px] text-slate-500 font-medium">Sentences</span>
+                <span className="text-xs text-slate-400 font-medium">Sentences</span>
                 <p className="text-base font-bold text-white">{uploadedDoc.sentence_count?.toLocaleString() || 0}</p>
               </div>
               <div className="text-center p-2">
-                <span className="text-[11px] text-slate-500 font-medium">Pages</span>
+                <span className="text-xs text-slate-400 font-medium">Pages</span>
                 <p className="text-base font-bold text-white">{uploadedDoc.page_count || 1}</p>
               </div>
             </div>
@@ -238,10 +238,10 @@ export const Upload: React.FC = () => {
               }}
               className={`border-2 border-dashed rounded-3xl p-8 sm:p-12 text-center transition-all duration-200 flex flex-col items-center justify-center gap-4 cursor-pointer ${
                 stage !== 'idle' && stage !== 'error'
-                  ? 'border-slate-800 bg-slate-950/40 cursor-not-allowed'
+                  ? 'border-slate-800 bg-[#0b0f19]/40 cursor-not-allowed'
                   : dragActive
-                  ? 'border-brand-500 bg-brand-500/10 scale-[0.99]'
-                  : 'border-slate-800 hover:border-brand-500/60 hover:bg-slate-950/60 bg-slate-950/40'
+                  ? 'border-sky-500 bg-sky-500/10 scale-[0.99]'
+                  : 'border-slate-700/80 hover:border-sky-500/60 hover:bg-[#0b0f19]/80 bg-[#0b0f19]/60'
               }`}
             >
               <input
@@ -253,15 +253,15 @@ export const Upload: React.FC = () => {
                 className="hidden"
               />
 
-              <div className="w-16 h-16 rounded-2xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center text-brand-400 shadow-lg shadow-brand-500/15">
+              <div className="w-16 h-16 rounded-2xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-lg shadow-sky-500/15">
                 <UploadIcon className="w-8 h-8" />
               </div>
 
               <div className="space-y-1.5">
                 <p className="text-base font-bold text-white">
-                  Drop your document here, or <span className="text-brand-400 underline underline-offset-4">browse files</span>
+                  Drop your document here, or <span className="text-sky-400 underline underline-offset-4">browse files</span>
                 </p>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-300">
                   Supports PDF (PyMuPDF), DOCX (python-docx), and TXT up to 40 MB
                 </p>
               </div>
@@ -278,9 +278,9 @@ export const Upload: React.FC = () => {
               <div className="flex items-center justify-center pt-1">
                 <button
                   onClick={handleLoadSample}
-                  className="text-xs font-semibold text-slate-400 hover:text-brand-300 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-brand-500/40 bg-slate-900/40 transition-colors"
+                  className="text-xs font-semibold text-slate-300 hover:text-sky-300 flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-700/90 hover:border-sky-500/50 bg-[#0b0f19] transition-colors"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-brand-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-sky-400" />
                   Load Pre-Built Sample NLP Document
                 </button>
               </div>
@@ -297,14 +297,14 @@ export const Upload: React.FC = () => {
 
             {/* Selected File Details Box */}
             {selectedFile && (
-              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-[#0b0f19] border border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center text-brand-400 flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 flex-shrink-0">
                     <FileCheck className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-bold text-white truncate">{selectedFile.name}</p>
-                    <p className="text-xs text-slate-400 font-mono">{formatFileSize(selectedFile.size)}</p>
+                    <p className="text-xs text-slate-300 font-mono">{formatFileSize(selectedFile.size)}</p>
                   </div>
                 </div>
                 {stage === 'idle' || stage === 'error' ? (
@@ -324,11 +324,11 @@ export const Upload: React.FC = () => {
 
             {/* Live Telemetry Progress Stages */}
             {(stage === 'uploading' || stage === 'extracting' || stage === 'saving') && (
-              <div className="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-4">
-                <div className="flex items-center justify-between text-xs font-bold text-brand-400">
+              <div className="p-5 rounded-2xl bg-[#0b0f19] border border-slate-800 space-y-4">
+                <div className="flex items-center justify-between text-xs font-bold text-sky-400">
                   <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-brand-400 animate-ping" />
-                    {stage === 'uploading' && '1. Streaming binary payload to Supabase Storage...'}
+                    <span className="w-2 h-2 rounded-full bg-sky-400 animate-ping" />
+                    {stage === 'uploading' && '1. Streaming binary payload to encrypted vault...'}
                     {stage === 'extracting' && '2. Extracting text, linguistic sentences & TF-IDF vectors...'}
                     {stage === 'saving' && '3. Saving indexed document to PostgreSQL vault...'}
                   </span>
@@ -336,7 +336,7 @@ export const Upload: React.FC = () => {
                 </div>
                 <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-gradient-to-r from-brand-500 to-indigo-500 h-2 rounded-full transition-all duration-300"
+                    className="bg-gradient-to-r from-sky-500 to-indigo-500 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>

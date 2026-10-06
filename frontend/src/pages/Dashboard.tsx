@@ -135,8 +135,8 @@ export const Dashboard: React.FC = () => {
             </h1>
             <Badge variant="brand" size="sm">{documents.length} Total</Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Browse, manage, and explore NLP analysis for all ingested documents in your Supabase vault.
+          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+            Browse, manage, and explore NLP intelligence for all ingested documents in your encrypted vault.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -157,23 +157,23 @@ export const Dashboard: React.FC = () => {
         </Card>
         <Card className="p-4 space-y-1">
           <span className="text-xs text-slate-400 font-medium">Total Ingested Words</span>
-          <p className="text-2xl font-black text-brand-400">{totalWords.toLocaleString()}</p>
-          <span className="text-[10px] text-slate-400">Processed tokens</span>
+          <p className="text-2xl font-black text-sky-400">{totalWords.toLocaleString()}</p>
+          <span className="text-[10px] text-slate-300">Processed tokens</span>
         </Card>
         <Card className="p-4 space-y-1">
           <span className="text-xs text-slate-400 font-medium">Storage Consumed</span>
           <p className="text-2xl font-black text-indigo-400">{formatFileSize(totalBytes)}</p>
-          <span className="text-[10px] text-slate-400">Supabase Storage</span>
+          <span className="text-[10px] text-slate-300">Encrypted Cloud Storage</span>
         </Card>
         <Card className="p-4 space-y-1">
-          <span className="text-xs text-slate-400 font-medium">NLP Intelligence</span>
+          <span className="text-xs text-slate-400 font-medium">NLP Reliability</span>
           <p className="text-2xl font-black text-emerald-400">100%</p>
-          <span className="text-[10px] text-emerald-400 font-semibold">Grounded & Ready</span>
+          <span className="text-[10px] text-emerald-400 font-semibold">Grounded & Verifiable</span>
         </Card>
       </div>
 
       {/* Filter and Search Controls Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-3 p-2 bg-slate-900/60 rounded-2xl border border-slate-800 backdrop-blur-xl">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3 p-2.5 bg-[#111827] rounded-2xl border border-slate-800 backdrop-blur-xl">
         {/* Search */}
         <div className="relative flex-1 w-full">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -182,20 +182,20 @@ export const Dashboard: React.FC = () => {
             placeholder="Filter documents by filename..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+            className="w-full pl-10 pr-4 py-2 bg-[#0b0f19] border border-slate-700/80 rounded-xl text-xs text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
           />
         </div>
 
         {/* Format Filter Pills */}
-        <div className="flex items-center gap-1 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+        <div className="flex items-center gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
           {['All', 'pdf', 'docx', 'txt'].map((fmt) => (
             <button
               key={fmt}
               onClick={() => setSelectedFormat(fmt)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all whitespace-nowrap ${
                 selectedFormat.toLowerCase() === fmt.toLowerCase()
-                  ? 'bg-brand-500 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+                  ? 'bg-sky-500 text-white shadow-sm'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
               }`}
             >
               {fmt}
@@ -205,7 +205,7 @@ export const Dashboard: React.FC = () => {
 
         {/* View Switcher & Refresh */}
         <div className="flex items-center gap-1.5 w-full md:w-auto justify-end">
-          <div className="flex items-center p-0.5 bg-slate-950/60 rounded-lg border border-slate-800">
+          <div className="flex items-center p-0.5 bg-[#0b0f19] rounded-lg border border-slate-800">
             <button
               onClick={() => setViewMode('grid')}
               className={`p-1.5 rounded-md text-xs transition-colors ${
@@ -234,8 +234,8 @@ export const Dashboard: React.FC = () => {
 
       {/* Main Document Content */}
       {loading ? (
-        <Card className="p-16">
-          <LoadingSpinner size="lg" label="Synchronizing document library with Supabase..." />
+        <Card className="p-16 text-center">
+          <LoadingSpinner size="lg" label="Synchronizing document library with Supabase vault..." />
         </Card>
       ) : error ? (
         <Card className="p-6">
@@ -273,12 +273,12 @@ export const Dashboard: React.FC = () => {
               className="p-5 flex flex-col justify-between group relative overflow-hidden"
             >
               {/* Subtle ambient accent glow based on type */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-500/5 rounded-full blur-xl pointer-events-none group-hover:bg-brand-500/10 transition-all" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-sky-500/5 rounded-full blur-xl pointer-events-none group-hover:bg-sky-500/10 transition-all" />
 
               <div>
                 {/* Header row */}
                 <div className="flex items-start justify-between gap-3 mb-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-brand-400 flex-shrink-0 group-hover:border-brand-500/50 transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400 flex-shrink-0 group-hover:border-sky-500/50 transition-colors">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -295,18 +295,18 @@ export const Dashboard: React.FC = () => {
                 </h3>
 
                 {/* Metadata Pills */}
-                <div className="flex flex-wrap items-center gap-2.5 text-xs text-slate-400 mt-2.5 mb-4">
+                <div className="flex flex-wrap items-center gap-2.5 text-xs text-slate-300 mt-2.5 mb-4">
                   <span className="font-mono text-[11px] text-slate-300">{formatFileSize(doc.file_size)}</span>
                   {doc.word_count !== null && doc.word_count !== undefined && (
                     <span className="flex items-center gap-1">
-                      <Layers className="w-3 h-3 text-slate-500" />
+                      <Layers className="w-3 h-3 text-slate-400" />
                       {doc.word_count.toLocaleString()} words
                     </span>
                   )}
                   {doc.page_count !== null && doc.page_count !== undefined && (
                     <span>{doc.page_count} {doc.page_count === 1 ? 'page' : 'pages'}</span>
                   )}
-                  <span className="flex items-center gap-1 text-[11px] text-slate-500">
+                  <span className="flex items-center gap-1 text-[11px] text-slate-400">
                     <Calendar className="w-3 h-3" />
                     {formatDate(doc.created_at)}
                   </span>
@@ -314,82 +314,107 @@ export const Dashboard: React.FC = () => {
               </div>
 
               {/* Action Bottom Bar */}
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+              <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
                 <Link to={`/documents/${doc.id}`} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full" rightIcon={<ExternalLink className="w-3.5 h-3.5" />}>
                     Open Workspace
                   </Button>
                 </Link>
-                <button
-                  onClick={(e) => copyDocId(doc.id, e)}
-                  title="Copy Document ID"
-                  className="p-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800"
-                >
-                  {copiedId === doc.id ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
-                <button
-                  onClick={() => setDocToDelete(doc)}
-                  title="Delete Document"
-                  className="p-2 rounded-xl text-rose-400/80 hover:text-rose-300 hover:bg-rose-950/40 border border-rose-900/30"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
+
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={(e) => copyDocId(doc.id, e)}
+                    className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                    title="Copy Document ID"
+                  >
+                    {copiedId === doc.id ? (
+                      <Check className="w-4 h-4 text-emerald-400" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setDocToDelete(doc)}
+                    className="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                    title="Delete Document"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </Card>
           ))}
         </div>
       ) : (
         /* List View */
-        <Card className="divide-y divide-slate-800/80 overflow-hidden">
-          {filteredDocuments.map((doc) => (
-            <div
-              key={doc.id}
-              className="p-4 hover:bg-slate-800/40 transition-colors flex items-center justify-between gap-4 text-xs"
-            >
-              <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                <div className="w-9 h-9 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-brand-400 flex-shrink-0">
-                  <FileText className="w-4 h-4" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-bold text-white text-sm truncate">{doc.filename || doc.original_filename}</p>
-                  <div className="flex items-center gap-3 text-slate-400 mt-0.5">
-                    <span>{formatFileSize(doc.file_size)}</span>
-                    {doc.word_count && <span>{doc.word_count.toLocaleString()} words</span>}
-                    <span>{formatDate(doc.created_at)}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 flex-shrink-0">
-                {getFormatBadge(doc.file_type)}
-                <Link to={`/documents/${doc.id}`}>
-                  <Button variant="outline" size="sm" rightIcon={<ExternalLink className="w-3.5 h-3.5" />}>
-                    Open
-                  </Button>
-                </Link>
-                <button
-                  onClick={() => setDocToDelete(doc)}
-                  className="p-2 text-rose-400 hover:bg-rose-950/40 rounded-lg"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ))}
+        <Card className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-slate-800 bg-[#0b0f19] text-slate-300 font-bold">
+                  <th className="py-3.5 px-4">Document</th>
+                  <th className="py-3.5 px-4">Format</th>
+                  <th className="py-3.5 px-4">Size</th>
+                  <th className="py-3.5 px-4">Words</th>
+                  <th className="py-3.5 px-4">Uploaded</th>
+                  <th className="py-3.5 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800 text-slate-200">
+                {filteredDocuments.map((doc) => (
+                  <tr key={doc.id} className="hover:bg-slate-800/40 transition-colors">
+                    <td className="py-3.5 px-4 font-semibold text-white">
+                      <div className="flex items-center gap-2.5 max-w-xs sm:max-w-sm truncate">
+                        <FileText className="w-4 h-4 text-sky-400 flex-shrink-0" />
+                        <span className="truncate" title={doc.filename}>{doc.filename || doc.original_filename}</span>
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4">{getFormatBadge(doc.file_type)}</td>
+                    <td className="py-3.5 px-4 font-mono text-slate-300">{formatFileSize(doc.file_size)}</td>
+                    <td className="py-3.5 px-4 text-slate-300">{doc.word_count?.toLocaleString() || '—'}</td>
+                    <td className="py-3.5 px-4 text-slate-400">{formatDate(doc.created_at)}</td>
+                    <td className="py-3.5 px-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link to={`/documents/${doc.id}`}>
+                          <Button variant="outline" size="sm">
+                            Open
+                          </Button>
+                        </Link>
+                        <button
+                          onClick={(e) => copyDocId(doc.id, e)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                          title="Copy ID"
+                        >
+                          {copiedId === doc.id ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                        </button>
+                        <button
+                          onClick={() => setDocToDelete(doc)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Card>
       )}
 
       {/* Delete Confirmation Modal */}
       {docToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
-          <div className="bg-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-800 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
+          <div className="bg-[#111827] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-800 space-y-4">
             <div className="flex items-start justify-between gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-rose-950/60 text-rose-400 border border-rose-800/60 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center flex-shrink-0 border border-rose-500/20">
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <button
                 onClick={() => setDocToDelete(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
                 disabled={isDeleting}
               >
                 <X className="w-5 h-5" />
@@ -398,16 +423,12 @@ export const Dashboard: React.FC = () => {
 
             <div>
               <h3 className="text-lg font-bold text-white">Delete Document</h3>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                Are you sure you want to delete <span className="font-semibold text-slate-200">"{docToDelete.filename || docToDelete.original_filename}"</span>? This will permanently remove the record and all NLP analysis.
+              <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                Are you sure you want to delete <span className="font-semibold text-white">"{docToDelete.filename || docToDelete.original_filename}"</span>? This will permanently remove the storage file and all associated NLP intelligence.
               </p>
             </div>
 
-            {deleteError && (
-              <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-800 text-rose-200 text-xs">
-                {deleteError}
-              </div>
-            )}
+            {deleteError && <ErrorAlert title="Delete Failed" message={deleteError} />}
 
             <div className="flex items-center justify-end gap-3 pt-2">
               <Button
@@ -424,7 +445,7 @@ export const Dashboard: React.FC = () => {
                 isLoading={isDeleting}
                 onClick={handleDelete}
               >
-                Delete Permanently
+                Delete Document
               </Button>
             </div>
           </div>
