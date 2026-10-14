@@ -5,7 +5,7 @@ Supports PDF (PyMuPDF), DOCX (python-docx), and TXT (multi-encoding).
 import io
 import re
 from typing import NamedTuple, Tuple
-import fitz  # PyMuPDF
+import pymupdf
 import docx
 
 class DocumentExtractionError(Exception):
@@ -34,7 +34,7 @@ def _count_words_and_sentences(text: str) -> Tuple[int, int, int]:
 def extract_pdf(file_bytes: bytes) -> Tuple[str, int]:
     """Extract text and page count from PDF bytes using PyMuPDF."""
     try:
-        doc = fitz.open(stream=file_bytes, filetype="pdf")
+        doc = pymupdf.open(stream=file_bytes, filetype="pdf")
         page_count = len(doc)
         text_parts = []
         
