@@ -11,7 +11,7 @@ import { NotFound } from './pages/NotFound';
 export const App: React.FC = () => {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-slate-50">
+      <div className="flex flex-col min-h-screen bg-[#1a1b2a]">
         <Navbar />
         <main className="flex-1">
           <Routes>

@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-zinc-50 drop-shadow-md leading-[1.1]">
             Look inside. <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-indigo-400 via-sky-300 to-blue-400 bg-clip-text text-transparent">
               Understand more.

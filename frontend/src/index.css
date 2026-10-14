@@ -5,26 +5,32 @@
 @layer base {
   body {
     /* Sleek, eye-soothing obsidian foundation designed for long document reading */
-    @apply bg-[#0a0b10] text-zinc-200 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200;
+    @apply bg-[#1a1b2a] text-zinc-100 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200;
     background-image: 
-      radial-gradient(at 50% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
-      radial-gradient(at 100% 10%, rgba(59, 130, 246, 0.04) 0px, transparent 40%),
-      radial-gradient(at 0% 80%, rgba(16, 185, 129, 0.03) 0px, transparent 40%);
+      radial-gradient(at 50% 0%, rgba(99, 102, 241, 0.10) 0px, transparent 55%),
+      radial-gradient(at 100% 10%, rgba(59, 130, 246, 0.06) 0px, transparent 45%),
+      radial-gradient(at 0% 85%, rgba(16, 185, 129, 0.04) 0px, transparent 40%);
     background-attachment: fixed;
   }
 
+  /* white (#fff) on #1a1b2a ≈ 16:1 contrast — exceeds WCAG AA */
   h1, h2, h3, h4, h5, h6 {
-    @apply text-white font-bold tracking-tight;
+    @apply text-white font-bold tracking-tight leading-tight;
   }
 
+  /* zinc-300 (#d4d4d8) on #1a1b2a ≈ 9.3:1 — exceeds WCAG AA */
   p {
-    @apply text-zinc-400 leading-relaxed;
+    @apply text-zinc-300 leading-relaxed;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-indigo-500 ring-offset-2 ring-offset-[#1a1b2a];
   }
 }
 
 /* Surface & Card Classes */
 .surface-card {
-  @apply bg-[#12131a] rounded-2xl border border-zinc-800/80 shadow-lg shadow-black/20 text-zinc-200;
+  @apply bg-[#1a1c2a] rounded-2xl border border-zinc-800/80 shadow-lg shadow-black/20 text-zinc-100;
 }
 
 .surface-inset {
