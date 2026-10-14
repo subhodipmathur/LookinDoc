@@ -28,11 +28,13 @@ class FlexibleEnvSource(EnvSettingsSource):
             if value.startswith("["):
                 # JSON array → parse and return a real Python list
                 try:
-                    return json.loads(value)
+                    parsed = json.loads(value)
+                    if isinstance(parsed, list):
+                        return [str(u).strip().rstrip("/") for u in parsed if str(u).strip()]
                 except json.JSONDecodeError:
                     pass
             # Comma-separated → split and return a real Python list
-            return [u.strip() for u in value.split(",") if u.strip()]
+            return [u.strip().rstrip("/") for u in value.split(",") if u.strip()]
         return super().prepare_field_value(field_name, field, value, value_is_complex)
 
 
