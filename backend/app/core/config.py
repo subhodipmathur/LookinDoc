@@ -60,13 +60,12 @@ class Settings(BaseSettings):
         init_settings: PydanticBaseSettingsSource,
         env_settings: PydanticBaseSettingsSource,
         dotenv_settings: PydanticBaseSettingsSource,
-        secrets_settings: PydanticBaseSettingsSource,
+        **kwargs,  # absorbs 'secrets_settings' (<v2.4) or 'file_secret_settings' (>=v2.4)
     ) -> Tuple[PydanticBaseSettingsSource, ...]:
         return (
             init_settings,
             FlexibleEnvSource(settings_cls),  # replaces default env_settings
             dotenv_settings,
-            secrets_settings,
         )
 
 
