@@ -1,7 +1,39 @@
-from typing import List, Union
-from pydantic import AnyHttpUrl, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Any, List, Tuple, Type, Union
+from pydantic.fields import FieldInfo
+from pydantic_settings import (
+    BaseSettings,
+    EnvSettingsSource,
+    PydanticBaseSettingsSource,
+    SettingsConfigDict,
+)
 import json
+
+
+class FlexibleEnvSource(EnvSettingsSource):
+    """
+    Custom env source that makes BACKEND_CORS_ORIGINS accept three formats:
+    - Empty / missing  → uses the default value defined on the model
+    - Comma-separated  → "https://foo.vercel.app,http://localhost:5173"
+    - JSON array       → '["https://foo.vercel.app","http://localhost:5173"]'
+    """
+
+    def prepare_field_value(
+        self, field_name: str, field: FieldInfo, value: Any, value_is_complex: bool
+    ) -> Any:
+        if field_name == "BACKEND_CORS_ORIGINS" and isinstance(value, str):
+            value = value.strip()
+            if not value:
+                # Empty string → tell pydantic-settings to use the model default
+                return None
+            if value.startswith("["):
+                # Already valid JSON array — pass through for normal JSON parsing
+                return value
+            # Comma-separated list → convert to JSON array string so the
+            # parent class can finish parsing it as List[str]
+            urls = [u.strip() for u in value.split(",") if u.strip()]
+            return json.dumps(urls)
+        return super().prepare_field_value(field_name, field, value, value_is_complex)
+
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "LookinDoc"
@@ -14,22 +46,28 @@ class Settings(BaseSettings):
     SUPABASE_URL: str = ""
     SUPABASE_SERVICE_KEY: str = ""
 
-    @field_validator("BACKEND_CORS_ORIGINS", mode="before")
-    @classmethod
-    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
-        if isinstance(v, str) and not v.startswith("["):
-            return [i.strip() for i in v.split(",")]
-        elif isinstance(v, str) and v.startswith("["):
-            return json.loads(v)
-        elif isinstance(v, list):
-            return v
-        return []
-
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=True,
-        extra="ignore"
+        extra="ignore",
     )
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: Type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        secrets_settings: PydanticBaseSettingsSource,
+    ) -> Tuple[PydanticBaseSettingsSource, ...]:
+        return (
+            init_settings,
+            FlexibleEnvSource(settings_cls),  # replaces default env_settings
+            dotenv_settings,
+            secrets_settings,
+        )
+
 
 settings = Settings()
