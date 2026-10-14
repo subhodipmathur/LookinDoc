@@ -23,15 +23,16 @@ class FlexibleEnvSource(EnvSettingsSource):
         if field_name == "BACKEND_CORS_ORIGINS" and isinstance(value, str):
             value = value.strip()
             if not value:
-                # Empty string → tell pydantic-settings to use the model default
+                # Empty string → use model default
                 return None
             if value.startswith("["):
-                # Already valid JSON array — pass through for normal JSON parsing
-                return value
-            # Comma-separated list → convert to JSON array string so the
-            # parent class can finish parsing it as List[str]
-            urls = [u.strip() for u in value.split(",") if u.strip()]
-            return json.dumps(urls)
+                # JSON array → parse and return a real Python list
+                try:
+                    return json.loads(value)
+                except json.JSONDecodeError:
+                    pass
+            # Comma-separated → split and return a real Python list
+            return [u.strip() for u in value.split(",") if u.strip()]
         return super().prepare_field_value(field_name, field, value, value_is_complex)
 
 
